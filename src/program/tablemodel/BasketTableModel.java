@@ -2,7 +2,7 @@ package program.tablemodel;
 
 import javax.swing.table.AbstractTableModel;
 
-public class MyTableModel extends AbstractTableModel {
+public class BasketTableModel extends AbstractTableModel {
     @Override
     public int getRowCount() {
         return 0;
