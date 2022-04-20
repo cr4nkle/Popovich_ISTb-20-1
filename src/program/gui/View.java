@@ -32,7 +32,7 @@ public class View extends JFrame {
     private JTable table;
     private BasketTableModel basketTableModel;
     private Container gridBagContainer;
-    private Container gridBagContainer2;
+    private JTextField infoField;
 
     public View(){
         Dimension firstDimension = new Dimension(100, 100);
@@ -40,128 +40,134 @@ public class View extends JFrame {
         Dimension thirdDimension = new Dimension(400, 200);
 
         gridBagContainer = new Container();
-        gridBagContainer2 = new Container();
         gridBagContainer.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-        gridBagContainer2.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-
         gridBagContainer.setLayout(new GridBagLayout());
-        gridBagContainer2.setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
 
-        // По умолчанию натуральная высота, максимальная ширина
         constraints.fill = GridBagConstraints.BOTH;
+        constraints.insets    = new Insets(2, 2, 2, 2);
         constraints.weightx = 1;
         constraints.weighty = 1;
-        constraints.gridy   = 0  ;  // нулевая ячейка таблицы по вертикали
-
-        codeButton = new JButton("Код");
-        codeButton.setMinimumSize(secondDimension);
-        //constraints.insets    = new Insets(5, 5, 5, 5);
-        constraints.gridx = 0;
-        constraints.gridy = 0;
-        gridBagContainer2.add(codeButton, constraints);
-
-        exitButton = new JButton("Выход");
-        exitButton.setMinimumSize(secondDimension);
-        constraints.gridx = 0;
-        constraints.gridy = 1;
-        gridBagContainer2.add(exitButton, constraints);
-
-        discountButton = new JButton("Скидка");
-        discountButton.setMinimumSize(secondDimension);
-        constraints.gridx = 1;
-        constraints.gridy = 0;
-        gridBagContainer2.add(discountButton, constraints);
-
-        endButton = new JButton("Закр.смены");
-        endButton.setMinimumSize(secondDimension);
-        constraints.gridx = 1;
-        constraints.gridy = 1;
-        gridBagContainer2.add(endButton, constraints);
-
-        button7 = new JButton("7");
-        button7.setMinimumSize(firstDimension);
-        constraints.gridx = 2;
-        constraints.gridy = 0;
-        gridBagContainer2.add(button7, constraints);
-
-        dotButton = new JButton(".");
-        dotButton.setMinimumSize(firstDimension);
-        constraints.gridx = 2;
-        constraints.gridy = 1;
-        gridBagContainer2.add(dotButton, constraints);
-
-        button8 = new JButton("8");
-        button8.setMinimumSize(firstDimension);
-        constraints.gridx = 3;
-        constraints.gridy = 0;
-        gridBagContainer2.add(button8, constraints);
-
-        zeroButton = new JButton("0");
-        zeroButton.setMinimumSize(firstDimension);
-        constraints.gridx = 3;
-        constraints.gridy = 1;
-        gridBagContainer2.add(zeroButton, constraints);
-
-        button9 = new JButton("9");
-        button9.setMinimumSize(firstDimension);
-        constraints.gridx = 4;
-        constraints.gridy = 0;
-        gridBagContainer2.add(button9, constraints);
-
-        doubleZeroButton = new JButton("00");
-        doubleZeroButton.setMinimumSize(firstDimension);
-        constraints.gridx = 4;
-        constraints.gridy = 1;
-        gridBagContainer2.add(doubleZeroButton, constraints);
+        constraints.gridy   = 0  ;
 
         button1 = new JButton("1");
-        button1.setMinimumSize(secondDimension);
-        constraints.gridx = 0;
+        constraints.gridx = 4;
         constraints.gridy = 0;
-        gridBagContainer.add(button1, constraints);
+        gridBagContainer.add(button1,constraints);
 
         button2 = new JButton("2");
-        button2.setMinimumSize(secondDimension);
-        constraints.gridx = 1;
+        constraints.gridx = 5;
         constraints.gridy = 0;
-        gridBagContainer.add(button2, constraints);
+        gridBagContainer.add(button2,constraints);
 
         button3 = new JButton("3");
-        button3.setMinimumSize(secondDimension);
-        constraints.gridx = 2;
+        constraints.gridx = 6;
         constraints.gridy = 0;
-        gridBagContainer.add(button3, constraints);
+        gridBagContainer.add(button3,constraints);
 
+        cancelButton = new JButton("Отмена");
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+        gridBagContainer.add(cancelButton,constraints);
 
-        constraints.ipadx = 45;
-        constraints.gridwidth = 5;
+        quantityButton = new JButton("Кол-во");
+        constraints.gridx = 1;
+        constraints.gridy = 1;
+        gridBagContainer.add(quantityButton,constraints);
+
+        barcodeButton = new JButton("Шт.код");
         constraints.gridx = 2;
         constraints.gridy = 1;
-        gridBagContainer.add(gridBagContainer2, constraints);
+        gridBagContainer.add(barcodeButton,constraints);
+
+        resultButton = new JButton("Итог");
+        constraints.gridx = 3;
+        constraints.gridy = 1;
+        gridBagContainer.add(resultButton,constraints);
 
         button4 = new JButton("4");
-        button4.setMinimumSize(secondDimension);
+        constraints.gridx = 4;
+        constraints.gridy = 1;
+        gridBagContainer.add(button4,constraints);
+
+        button5 = new JButton("5");
+        constraints.gridx = 5;
+        constraints.gridy = 1;
+        gridBagContainer.add(button5,constraints);
+
+        button6 = new JButton("6");
+        constraints.gridx = 6;
+        constraints.gridy = 1;
+        gridBagContainer.add(button6,constraints);
+
+        codeButton = new JButton("Код");
+        constraints.gridx = 2;
+        constraints.gridy = 2;
+        gridBagContainer.add(codeButton,constraints);
+
+        discountButton = new JButton("Скидка");
         constraints.gridx = 3;
+        constraints.gridy = 2;
+        gridBagContainer.add(discountButton,constraints);
+
+        button7 = new JButton("7");
+        constraints.gridx = 4;
+        constraints.gridy = 2;
+        gridBagContainer.add(button7,constraints);
+
+        button8 = new JButton("8");
+        constraints.gridx = 5;
+        constraints.gridy = 2;
+        gridBagContainer.add(button8,constraints);
+
+        button9 = new JButton("9");
+        constraints.gridx = 6;
+        constraints.gridy = 2;
+        gridBagContainer.add(button9,constraints);
+
+        exitButton = new JButton("Выход");
+        constraints.gridx = 2;
+        constraints.gridy = 3;
+        gridBagContainer.add(exitButton,constraints);
+
+        endButton = new JButton("Закр.смену");
+        constraints.gridx = 3;
+        constraints.gridy = 3;
+        gridBagContainer.add(endButton,constraints);
+
+        dotButton = new JButton(".");
+        constraints.gridx = 4;
+        constraints.gridy = 3;
+        gridBagContainer.add(dotButton,constraints);
+
+        zeroButton = new JButton("0");
+        constraints.gridx = 5;
+        constraints.gridy = 3;
+        gridBagContainer.add(zeroButton,constraints);
+
+        doubleZeroButton = new JButton("00");
+        constraints.gridx = 6;
+        constraints.gridy = 3;
+        gridBagContainer.add(doubleZeroButton,constraints);
+
+        infoField = new JTextField(19);
+        constraints.gridwidth = 4;
+        constraints.gridx = 0;
         constraints.gridy = 0;
-        gridBagContainer.add(button4, constraints);
+        gridBagContainer.add(infoField,constraints);
 
         payButton = new JButton("Оплата");
-        payButton.setMinimumSize(thirdDimension);
-        constraints.ipady     = 45;   // кнопка высокая
-        constraints.weightx   = 0.0;
-        constraints.gridwidth = 2;    // размер кнопки в две ячейки
-        constraints.gridx     = 0;    // нулевая ячейка по горизонтали
-        constraints.gridy     = 1;    // первая ячейка по вертикали
-        gridBagContainer.add(payButton, constraints);
+        constraints.gridwidth = 2;
+        constraints.gridheight = 2;
+        constraints.gridx = 0;
+        constraints.gridy = 2;
+        gridBagContainer.add(payButton,constraints);
 
+        add(gridBagContainer, BorderLayout.SOUTH);
 
-
-
-
-
-
-        add(gridBagContainer);
+        table = new JTable();
+        scrollPane = new JScrollPane(table);
+        add(scrollPane, BorderLayout.CENTER);
         pack();
         setVisible(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
