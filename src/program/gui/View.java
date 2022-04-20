@@ -212,9 +212,98 @@ public class View extends JFrame {
         table = new JTable();
         scrollPane = new JScrollPane(table);
         scrollPane.setPreferredSize(new Dimension(1112,406));
+
         add(scrollPane, BorderLayout.CENTER);
         pack();
         setVisible(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    }
+
+    public JButton getButton1() {
+        return button1;
+    }
+
+    public JButton getButton2() {
+        return button2;
+    }
+
+    public JButton getButton3() {
+        return button3;
+    }
+
+    public JButton getButton4() {
+        return button4;
+    }
+
+    public JButton getButton5() {
+        return button5;
+    }
+
+    public JButton getButton6() {
+        return button6;
+    }
+
+    public JButton getButton8() {
+        return button8;
+    }
+
+    public JButton getButton7() {
+        return button7;
+    }
+
+    public JButton getButton9() {
+        return button9;
+    }
+
+    public JButton getBarcodeButton() {
+        return barcodeButton;
+    }
+
+    public JButton getCancelButton() {
+        return cancelButton;
+    }
+
+    public JButton getCodeButton() {
+        return codeButton;
+    }
+
+    public JButton getDiscountButton() {
+        return discountButton;
+    }
+
+    public JButton getDotButton() {
+        return dotButton;
+    }
+
+    public JButton getDoubleZeroButton() {
+        return doubleZeroButton;
+    }
+
+    public JButton getEndButton() {
+        return endButton;
+    }
+
+    public JButton getExitButton() {
+        return exitButton;
+    }
+
+    public JButton getPayButton() {
+        return payButton;
+    }
+
+    public JButton getQuantityButton() {
+        return quantityButton;
+    }
+
+    public JButton getResultButton() {
+        return resultButton;
+    }
+
+    public JButton getZeroButton() {
+        return zeroButton;
+    }
+
+    public JTextField getInfoField() {
+        return infoField;
     }
 }
