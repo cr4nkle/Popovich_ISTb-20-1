@@ -164,7 +164,7 @@ public class View extends JFrame {
         constraints.gridy = 3;
         gridBagContainer.add(exitButton,constraints);
 
-        endButton = new JButton("Закр.смену");
+        endButton = new JButton("Закрыть"+"/n"+"смену");
         endButton.setFont(new Font("TimesRoman", Font.PLAIN, 30));
         endButton.setPreferredSize(secondDimension);
         constraints.gridx = 3;
@@ -192,7 +192,8 @@ public class View extends JFrame {
         constraints.gridy = 3;
         gridBagContainer.add(doubleZeroButton,constraints);
 
-        infoField = new JTextField(19);
+        infoField = new JTextField();
+        infoField.setFont(font);
         constraints.gridwidth = 4;
         constraints.gridx = 0;
         constraints.gridy = 0;
@@ -305,5 +306,9 @@ public class View extends JFrame {
 
     public JTextField getInfoField() {
         return infoField;
+    }
+
+    public JTable getTable() {
+        return table;
     }
 }
