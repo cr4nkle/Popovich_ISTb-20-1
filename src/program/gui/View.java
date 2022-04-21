@@ -39,7 +39,7 @@ public class View extends JFrame {
         Dimension secondDimension = new Dimension(200, 100);
         Dimension thirdDimension = new Dimension(400, 200);
 
-        Font font = new Font("TimesRoman", Font.PLAIN, 40);
+        Font font = new Font("TimesRoman", Font.PLAIN, 35);
 
         gridBagContainer = new Container();
         gridBagContainer.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
@@ -73,7 +73,7 @@ public class View extends JFrame {
         constraints.gridy = 0;
         gridBagContainer.add(button3,constraints);
 
-        cancelButton = new JButton("Отмена");
+        cancelButton = new JButton("<html><center>Отмена<p>чека</center></html>");
         cancelButton.setFont(font);
         cancelButton.setPreferredSize(secondDimension);
         constraints.gridx = 0;
@@ -87,7 +87,7 @@ public class View extends JFrame {
         constraints.gridy = 1;
         gridBagContainer.add(quantityButton,constraints);
 
-        barcodeButton = new JButton("Шт.код");
+        barcodeButton = new JButton("<html><center>Штрих<p>код<center></html>");
         barcodeButton.setFont(font);
         barcodeButton.setPreferredSize(secondDimension);
         constraints.gridx = 2;
@@ -164,8 +164,8 @@ public class View extends JFrame {
         constraints.gridy = 3;
         gridBagContainer.add(exitButton,constraints);
 
-        endButton = new JButton("Закрыть"+"/n"+"смену");
-        endButton.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+        endButton = new JButton("<html><center>Закрыть<p>смену</center></html>");
+        endButton.setFont(font);
         endButton.setPreferredSize(secondDimension);
         constraints.gridx = 3;
         constraints.gridy = 3;
@@ -200,7 +200,7 @@ public class View extends JFrame {
         gridBagContainer.add(infoField,constraints);
 
         payButton = new JButton("Оплата");
-        payButton.setFont(new Font("TimesRoman", Font.PLAIN, 80));
+        payButton.setFont(new Font("TimesRoman", Font.PLAIN, 70));
         payButton.setPreferredSize(secondDimension);
         constraints.gridwidth = 2;
         constraints.gridheight = 2;
