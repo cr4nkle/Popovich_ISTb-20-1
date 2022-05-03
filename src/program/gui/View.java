@@ -4,6 +4,8 @@ import program.tablemodel.BasketTableModel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class View extends JFrame {
 
@@ -52,29 +54,32 @@ public class View extends JFrame {
         topGridBagContainer = new Container();
         topGridBagContainer.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
         topGridBagContainer.setLayout(new GridBagLayout());
-        GridBagConstraints topconstraints = new GridBagConstraints();
+        GridBagConstraints topConstraints = new GridBagConstraints();
 
-        topconstraints.fill = GridBagConstraints.BOTH;
-        topconstraints.fill = GridBagConstraints.BOTH;
-        topconstraints.insets    = new Insets(2, 2, 2, 2);
-        topconstraints.weightx = 1;
-        topconstraints.weighty = 1;
-        topconstraints.gridy   = 0  ;
+        topConstraints.fill = GridBagConstraints.BOTH;
+        topConstraints.fill = GridBagConstraints.BOTH;
+        topConstraints.insets    = new Insets(2, 2, 2, 2);
+        topConstraints.weightx = 1;
+        topConstraints.weighty = 1;
+        topConstraints.gridy   = 0  ;
 
         cashierField = new JTextField("Кассир:");
         cashierField.setFont(font);
         cashierField.setPreferredSize(new Dimension(800, 100));
-        topconstraints.gridwidth = 4;
-        topconstraints.gridx = 0;
-        topconstraints.gridy = 0;
+        topConstraints.gridwidth = 4;
+        topConstraints.gridx = 0;
+        topConstraints.gridy = 0;
         topGridBagContainer.add(cashierField,constraints);
         add(topGridBagContainer, BorderLayout.NORTH);
 
-        dateField = new JTextField();
+        Date date = new Date();
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd.MM.yyyy");
+
+        dateField = new JTextField(formatForDateNow.format(date));
         dateField.setFont(font);
         dateField.setPreferredSize(new Dimension(300, 100));
-        topconstraints.gridx = 4;
-        topconstraints.gridy = 0;
+        topConstraints.gridx = 4;
+        topConstraints.gridy = 0;
         topGridBagContainer.add(dateField,constraints);
 
         constraints.fill = GridBagConstraints.BOTH;
