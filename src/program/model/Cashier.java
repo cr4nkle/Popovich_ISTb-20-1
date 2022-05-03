@@ -1,4 +1,4 @@
 package program.model;
 
-public class DateBase {
+public class Cashier {
 }
