@@ -32,7 +32,10 @@ public class View extends JFrame {
     private JTable table;
     private BasketTableModel basketTableModel;
     private Container gridBagContainer;
+    private Container topGridBagContainer;
     private JTextField infoField;
+    private JTextField cashierField;
+    private JTextField dateField;
 
     public View(){
         Dimension firstDimension = new Dimension(100, 100);
@@ -45,6 +48,34 @@ public class View extends JFrame {
         gridBagContainer.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
         gridBagContainer.setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
+
+        topGridBagContainer = new Container();
+        topGridBagContainer.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+        topGridBagContainer.setLayout(new GridBagLayout());
+        GridBagConstraints topconstraints = new GridBagConstraints();
+
+        topconstraints.fill = GridBagConstraints.BOTH;
+        topconstraints.fill = GridBagConstraints.BOTH;
+        topconstraints.insets    = new Insets(2, 2, 2, 2);
+        topconstraints.weightx = 1;
+        topconstraints.weighty = 1;
+        topconstraints.gridy   = 0  ;
+
+        cashierField = new JTextField("Кассир:");
+        cashierField.setFont(font);
+        cashierField.setPreferredSize(new Dimension(800, 100));
+        topconstraints.gridwidth = 4;
+        topconstraints.gridx = 0;
+        topconstraints.gridy = 0;
+        topGridBagContainer.add(cashierField,constraints);
+        add(topGridBagContainer, BorderLayout.NORTH);
+
+        dateField = new JTextField();
+        dateField.setFont(font);
+        dateField.setPreferredSize(new Dimension(300, 100));
+        topconstraints.gridx = 4;
+        topconstraints.gridy = 0;
+        topGridBagContainer.add(dateField,constraints);
 
         constraints.fill = GridBagConstraints.BOTH;
         constraints.insets    = new Insets(2, 2, 2, 2);
