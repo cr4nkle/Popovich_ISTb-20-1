@@ -30,6 +30,7 @@ public class View extends JFrame {
     private JButton barcodeButton;
     private JButton codeButton;
     private JButton discountButton;
+    private JButton deleteButton;
     private JScrollPane scrollPane;
     private JTable table;
     private BasketTableModel basketTableModel;
@@ -193,7 +194,7 @@ public class View extends JFrame {
         constraints.gridy = 2;
         gridBagContainer.add(button9,constraints);
 
-        exitButton = new JButton("Выход");
+        exitButton = new JButton("Ввод");
         exitButton.setFont(font);
         exitButton.setPreferredSize(secondDimension);
         constraints.gridx = 2;
@@ -228,9 +229,16 @@ public class View extends JFrame {
         constraints.gridy = 3;
         gridBagContainer.add(doubleZeroButton,constraints);
 
+        deleteButton = new JButton("Стереть");
+        deleteButton.setFont(font);
+        deleteButton.setPreferredSize(firstDimension);
+        constraints.gridx = 3;
+        constraints.gridy = 0;
+        gridBagContainer.add(deleteButton,constraints);
+
         infoField = new JTextField();
         infoField.setFont(font);
-        constraints.gridwidth = 4;
+        constraints.gridwidth = 3;
         constraints.gridx = 0;
         constraints.gridy = 0;
         gridBagContainer.add(infoField,constraints);
@@ -346,5 +354,17 @@ public class View extends JFrame {
 
     public JTable getTable() {
         return table;
+    }
+
+    public JTextField getCashierField() {
+        return cashierField;
+    }
+
+    public JTextField getDateField() {
+        return dateField;
+    }
+
+    public JButton getDeleteButton() {
+        return deleteButton;
     }
 }
