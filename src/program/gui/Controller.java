@@ -2,56 +2,100 @@ package program.gui;
 
 import program.tablemodel.BasketTableModel;
 
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Controller {
-    private int buttonFlag;
-    private boolean pressFlag = false;
+    private static int flag;
+    private boolean pressFlag = false;//флаг для понимания нажата ли кнопка
     private String infoText = "";
+
+    private void demonstration(String flag, View view){
+        if(pressFlag){//если была нажата почисть поле
+            infoText = "";
+            pressFlag = false;
+        }
+        infoText += flag;
+        view.getInfoField().setText(infoText);
+    }
     public void execute(View view){
+        press(view);
         view.getTable().setModel(new BasketTableModel());
         view.getCodeButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                infoText = "Введите код";
+                infoText = "Введите код:";
+                flag = 4;
                 pressFlag = true;
                 view.getInfoField().setText(infoText);
             }
         });
 //запихнуть всё в список, посмотреть как узнать какая кнопка в списке была нажата
-        view.getButton1().addActionListener(new ActionListener() {
+        view.getQuantityButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                if(pressFlag){
-                    infoText = "";
-                    pressFlag = false;
-                }
-                buttonFlag = 1;
-                infoText += buttonFlag;
-                System.out.println();
+                infoText = "Введите кол-во:";
+                flag = 1;
+                pressFlag = true;
                 view.getInfoField().setText(infoText);
             }
         });
 
-        view.getButton2().addActionListener(new ActionListener() {
+        view.getResultButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                if(pressFlag){
-                    infoText = "";
-                    pressFlag = false;
-                }
-                buttonFlag = 2;
-                infoText += buttonFlag;
+                infoText = "Итоговая сумма:";
+                view.getInfoField().setText(infoText);
+                //запуск вычислений
+                flag = 0;
+                pressFlag = false;
+            }
+        });
+
+        view.getDiscountButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                infoText = "Введите размер скидки:";
+                flag = 5;
+                pressFlag = true;
                 view.getInfoField().setText(infoText);
             }
         });
 
-        view.getExitButton().addActionListener(new ActionListener() {
+        view.getPayButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                view.getCashierField().setText(view.getInfoField().getText());
+                infoText = "Введите сумму оплаты:";
+                flag = 6;
+                pressFlag = true;
+                view.getInfoField().setText(infoText);
+            }
+        });
+
+        view.getEnterButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                String result = view.getInfoField().getText();
+                switch (flag){
+                    case 1://показ таблицы корзины с нужным кол-вом товара
+                        //проверка количества продукта
+                        System.out.println(result);
+                        break;
+                    case 2://штрих-код
+                        break;
+                    case 3:
+                        break;
+                    case 4://поиск по введенному коду показ в таблицу продукта
+                        System.out.println(result);
+                        break;
+                    case 5:
+                        System.out.println(result);
+                        break;
+                    case 6:
+                        System.out.println(Float.parseFloat(result));//показ чека и очищение таблицы отправка запросов в бд
+                        break;
+                }
+                flag = 0;
             }
         });
 
@@ -59,9 +103,97 @@ public class Controller {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 infoText = "";
+                flag = 0;
                 view.getInfoField().setText(infoText);
             }
         });
+
+    }
+
+    private void press(View view){
+        view.getButton1().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    demonstration("1", view);
+                }
+            });
+
+        view.getButton2().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    demonstration("2", view);
+                }
+            });
+
+        view.getButton3().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    demonstration("3", view);
+                }
+            });
+
+        view.getButton4().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    demonstration("4", view);
+                }
+            });
+
+        view.getButton5().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    demonstration("5", view);
+                }
+            });
+
+        view.getButton6().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    demonstration("6", view);
+                }
+            });
+
+        view.getButton7().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    demonstration("7", view);
+                }
+            });
+
+        view.getButton8().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    demonstration("8", view);
+                }
+            });
+
+        view.getButton9().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    demonstration("9", view);
+                }
+            });
+
+        view.getZeroButton().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    demonstration("0", view);
+                }
+            });
+
+        view.getDoubleZeroButton().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    demonstration("00", view);
+                }
+            });
+
+        view.getDotButton().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent actionEvent) {
+                    demonstration(".", view);
+                }
+            });
 
     }
 }

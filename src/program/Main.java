@@ -11,6 +11,7 @@ public class Main {
         View view = new View();
         Controller controller = new Controller();
         controller.execute(view);
-        System.out.println(Encrypt.encrypt("1a1dc91c907325c69271ddf0c944bc72"));
+        System.out.println(Encrypt.encrypt("1"));
+
     }
 }

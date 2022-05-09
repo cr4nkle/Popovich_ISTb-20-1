@@ -37,8 +37,8 @@ public class View extends JFrame {
     private Container gridBagContainer;
     private Container topGridBagContainer;
     private JTextField infoField;
-    private JTextField cashierField;
-    private JTextField dateField;
+    private JLabel cashierField;
+    private JLabel dateField;
 
     public View(){
         Dimension firstDimension = new Dimension(100, 100);
@@ -64,9 +64,8 @@ public class View extends JFrame {
         topConstraints.weighty = 1;
         topConstraints.gridy   = 0  ;
 
-        cashierField = new JTextField("Кассир:");
+        cashierField = new JLabel("Кассир:");
         cashierField.setFont(font);
-        cashierField.setPreferredSize(new Dimension(800, 100));
         topConstraints.gridwidth = 4;
         topConstraints.gridx = 0;
         topConstraints.gridy = 0;
@@ -76,9 +75,8 @@ public class View extends JFrame {
         Date date = new Date();
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd.MM.yyyy");
 
-        dateField = new JTextField(formatForDateNow.format(date));
+        dateField = new JLabel(formatForDateNow.format(date));
         dateField.setFont(font);
-        dateField.setPreferredSize(new Dimension(300, 100));
         topConstraints.gridx = 4;
         topConstraints.gridy = 0;
         topGridBagContainer.add(dateField,constraints);
@@ -328,7 +326,7 @@ public class View extends JFrame {
         return endButton;
     }
 
-    public JButton getExitButton() {
+    public JButton getEnterButton() {
         return exitButton;
     }
 
@@ -356,11 +354,11 @@ public class View extends JFrame {
         return table;
     }
 
-    public JTextField getCashierField() {
+    public JLabel getCashierField() {
         return cashierField;
     }
 
-    public JTextField getDateField() {
+    public JLabel getDateField() {
         return dateField;
     }
 
