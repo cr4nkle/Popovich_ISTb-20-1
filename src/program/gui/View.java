@@ -58,7 +58,6 @@ public class View extends JFrame {
         GridBagConstraints topConstraints = new GridBagConstraints();
 
         topConstraints.fill = GridBagConstraints.BOTH;
-        topConstraints.fill = GridBagConstraints.BOTH;
         topConstraints.insets    = new Insets(2, 2, 2, 2);
         topConstraints.weightx = 1;
         topConstraints.weighty = 1;
