@@ -12,7 +12,7 @@ public class AuthenticationWindow extends JFrame {
 
     public AuthenticationWindow(View view){
         setTitle("Аутентификация");
-        loginLabel = new JLabel("Логин");
+        loginLabel = new JLabel("ФИО");
         passwordLabel = new JLabel("Пароль");
         authenticationButton = new JButton("Войти");
         Font font = new Font("TimesRoman", Font.PLAIN, 25);

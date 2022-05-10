@@ -1,5 +1,6 @@
 package program.gui;
 
+import program.model.Store;
 import program.tablemodel.BasketTableModel;
 
 import java.awt.event.ActionEvent;
@@ -10,9 +11,11 @@ public class Controller {
     private boolean pressFlag = false;//флаг для понимания нажата ли кнопка
     private String infoText = "";
     private View view;
+    private Store store;
 
-    public Controller(View view){
+    public Controller(View view, Store store){
         this.view = view;
+        this.store = store;
     }
 
     private void demonstration(String flag){
@@ -85,7 +88,7 @@ public class Controller {
                 switch (flag){
                     case 1://показ таблицы корзины с нужным кол-вом товара
                         //проверка количества продукта
-                        System.out.println(result);
+                        System.out.println(result);//вывод в консоль для отладки
                         break;
                     case 2://штрих-код
                         break;
@@ -207,13 +210,21 @@ public class Controller {
         window.getAuthenticationButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                view.setVisible(true);
-                window.dispose();
+                boolean login = login(window.getLoginField().getText(), window.getPasswordField().getText());
+                if (login){
+                    view.setVisible(true);
+                    window.dispose();
+                }//добавить окошко с ошибкой
+
             }
         });
+    }
 
-        window.getLoginField();
-        window.getPasswordField();
-
+    private boolean login(String fullName, String password){
+        boolean checkFlag = false;
+        if (store.getCashier(fullName).getPassword().equalsIgnoreCase(password)){
+            checkFlag = true;
+        }
+        return checkFlag;
     }
 }
