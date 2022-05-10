@@ -11,8 +11,9 @@ public class Main {
 	// write your code here
         View view = new View();
         AuthenticationWindow authenticationWindow = new AuthenticationWindow(view);
-        Controller controller = new Controller();
-        controller.execute(view);
+        Controller controller = new Controller(view);
+        controller.execute();
+        controller.executeAuthenticationWindow(authenticationWindow);
         System.out.println(Encrypt.encrypt("1"));
 
     }

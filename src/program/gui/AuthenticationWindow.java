@@ -55,7 +55,7 @@ public class AuthenticationWindow extends JFrame {
         add(passwordField, constraints);
         pack();
         setVisible(true);
-        //setLocationByPlatform(true);
+
         setLocationRelativeTo(view);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
     }

@@ -9,8 +9,13 @@ public class Controller {
     private static int flag;
     private boolean pressFlag = false;//флаг для понимания нажата ли кнопка
     private String infoText = "";
+    private View view;
 
-    private void demonstration(String flag, View view){
+    public Controller(View view){
+        this.view = view;
+    }
+
+    private void demonstration(String flag){
         if(pressFlag){//если была нажата почисть поле
             infoText = "";
             pressFlag = false;
@@ -18,8 +23,9 @@ public class Controller {
         infoText += flag;
         view.getInfoField().setText(infoText);
     }
-    public void execute(View view){
-        press(view);
+    public void execute(){
+        view.setVisible(false);
+        press();
         view.getTable().setModel(new BasketTableModel());
         view.getCodeButton().addActionListener(new ActionListener() {
             @Override
@@ -110,90 +116,104 @@ public class Controller {
 
     }
 
-    private void press(View view){
+    private void press(){
         view.getButton1().addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    demonstration("1", view);
+                    demonstration("1");
                 }
             });
 
         view.getButton2().addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    demonstration("2", view);
+                    demonstration("2");
                 }
             });
 
         view.getButton3().addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    demonstration("3", view);
+                    demonstration("3");
                 }
             });
 
         view.getButton4().addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    demonstration("4", view);
+                    demonstration("4");
                 }
             });
 
         view.getButton5().addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    demonstration("5", view);
+                    demonstration("5");
                 }
             });
 
         view.getButton6().addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    demonstration("6", view);
+                    demonstration("6");
                 }
             });
 
         view.getButton7().addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    demonstration("7", view);
+                    demonstration("7");
                 }
             });
 
         view.getButton8().addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    demonstration("8", view);
+                    demonstration("8");
                 }
             });
 
         view.getButton9().addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    demonstration("9", view);
+                    demonstration("9");
                 }
             });
 
         view.getZeroButton().addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    demonstration("0", view);
+                    demonstration("0");
                 }
             });
 
         view.getDoubleZeroButton().addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    demonstration("00", view);
+                    demonstration("00");
                 }
             });
 
         view.getDotButton().addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
-                    demonstration(".", view);
+                    demonstration(".");
                 }
             });
+
+    }
+
+    public void executeAuthenticationWindow(AuthenticationWindow window){
+        window.getAuthenticationButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                view.setVisible(true);
+                window.dispose();
+            }
+        });
+
+        window.getLoginField();
+        window.getPasswordField();
 
     }
 }
