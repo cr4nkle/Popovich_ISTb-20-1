@@ -1,5 +1,7 @@
 package program;
 
+import program.model.Product;
+import program.utility.database.DataBase;
 import program.utility.encryption.Encrypt;
 import program.gui.window.AuthenticationWindow;
 import program.gui.Controller;
@@ -17,5 +19,22 @@ public class Main {
         Controller controller = new Controller(view, store);
         controller.execute();
         //controller.executeAuthenticationWindow(authenticationWindow);
+        /*try{
+            DataBase.initDB();
+            DataBase.createDB();
+            DataBase.closeDB();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }*/
+        try {
+            DataBase.initDB();
+            //DataBase.addProduct(new Product(1, "хлеб", 30, 100));
+            //DataBase.deleteProduct(1);
+            DataBase.buyProduct(1, 20);
+            DataBase.closeDB();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
     }
 }

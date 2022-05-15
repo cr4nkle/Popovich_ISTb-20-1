@@ -1,4 +1,13 @@
 package program.utility.database;
 
-public class SqliteRepository {
+import program.model.Cashier;
+import program.model.Product;
+
+import java.util.ArrayList;
+
+public abstract class SqliteRepository {
+    private ArrayList<Product> productListFromDB = new ArrayList<>();
+    private ArrayList<Cashier> cashierListFromDB = new ArrayList<>();
+
+    //добавление удаление
 }
