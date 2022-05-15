@@ -1,5 +1,6 @@
 package program.gui;
 
+import program.model.Product;
 import program.utility.encryption.Encrypt;
 import program.gui.window.AuthenticationWindow;
 import program.gui.window.View;
@@ -31,6 +32,8 @@ public class Controller {
     }
     public void execute(){
         press();
+        BasketTableModel basketTableModel = new BasketTableModel(store);
+
         view.getTable().setModel(new BasketTableModel(store));
         view.getCodeButton().addActionListener(new ActionListener() {
             @Override
@@ -56,7 +59,7 @@ public class Controller {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 infoText = "Итоговая сумма:";
-                view.getInfoField().setText(infoText);
+                view.getInfoField().setText(infoText + " " + getResultPrice());
                 //запуск вычислений
                 flag = 0;
                 pressFlag = false;
@@ -239,5 +242,17 @@ public class Controller {
         }
 
         return checkFlag;
+    }
+
+    private int getResultPrice(){
+        int result = 0;
+        int price = 0;
+        int quantity = 0;
+        for (Product p : store.getProductList()){
+            price = p.getPrice();
+            quantity = p.getQuantity();
+            result += quantity * price;
+        }
+        return result;
     }
 }

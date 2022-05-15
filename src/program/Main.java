@@ -13,7 +13,7 @@ public class Main {
         View view = new View();
         Store store = new Store();
         store.add();
-        AuthenticationWindow authenticationWindow = new AuthenticationWindow(view);
+        //AuthenticationWindow authenticationWindow = new AuthenticationWindow(view);
         Controller controller = new Controller(view, store);
         controller.execute();
         //controller.executeAuthenticationWindow(authenticationWindow);

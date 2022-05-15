@@ -3,6 +3,7 @@ package program.gui.window;
 import program.gui.tablemodel.BasketTableModel;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import java.awt.*;
@@ -256,6 +257,8 @@ public class View extends JFrame {
         table = new JTable();
 
         table.getTableHeader().setFont(new Font("TimesRoman", Font.PLAIN, 20));
+        table.setFont(new Font("TimesRoman", Font.PLAIN, 15));
+
         scrollPane = new JScrollPane(table);
         scrollPane.setPreferredSize(new Dimension(1112,406));
 

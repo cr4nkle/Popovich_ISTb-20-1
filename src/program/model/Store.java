@@ -10,6 +10,8 @@ public class Store {
     public void add(){
         this.cashierList.add(new Cashier("админ", "админ"));
         this.productList.add(new Product(444,"milk",59,78));
+        this.productList.add(new Product(445,"juice",59,70));
+        this.productList.add(new Product(444,"milk",50,5));
     }
     
     public Cashier getCashier(String fullName){
