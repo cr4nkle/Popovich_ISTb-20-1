@@ -1,6 +1,7 @@
 package program.gui;
 
 import program.model.Product;
+import program.utility.constant.Constant;
 import program.utility.encryption.Encrypt;
 import program.gui.window.AuthenticationWindow;
 import program.gui.window.View;
@@ -11,11 +12,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Controller {
-    private static int flag;
+    private int flag;
     private boolean pressFlag = false;//флаг для понимания нажата ли кнопка
     private String infoText = "";
     private View view;
     private Store store;
+    private int discountValue = 0;
+    private float totalPrice = 0;
 
     public Controller(View view, Store store){
         this.view = view;
@@ -57,9 +60,10 @@ public class Controller {
 
         view.getResultButton().addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent actionEvent) {
+            public void actionPerformed(ActionEvent actionEvent) {//показ итоговой суммы
                 infoText = "Итоговая сумма:";
-                view.getInfoField().setText(infoText + " " + getResultPrice());
+                getResultPrice();
+                view.getInfoField().setText(infoText + " " + totalPrice + Constant.RUB);
                 //запуск вычислений
                 flag = 0;
                 pressFlag = false;
@@ -102,10 +106,12 @@ public class Controller {
                     case 4://поиск по введенному коду показ в таблицу продукта
                         System.out.println(result);
                         break;
-                    case 5:
-                        System.out.println(result);
+                    case 5://сделать ограничение ввода скидки
+                        discountValue = Integer.parseInt(result);
+                        view.getInfoField().setText("");
                         break;
                     case 6:
+                        totalPrice = 0;
                         System.out.println(Float.parseFloat(result));//показ чека и очищение таблицы отправка запросов в бд
                         break;
                 }
@@ -244,15 +250,19 @@ public class Controller {
         return checkFlag;
     }
 
-    private int getResultPrice(){
-        int result = 0;
-        int price = 0;
-        int quantity = 0;
-        for (Product p : store.getProductList()){
-            price = p.getPrice();
-            quantity = p.getQuantity();
-            result += quantity * price;
+    private void getResultPrice(){
+        if(discountValue < Constant.DISCOUNT_LIMIT) {
+            totalPrice = 0;
+            int price = 0;
+            int quantity = 0;
+            for (Product p : store.getProductList()) {
+                price = p.getPrice();
+                quantity = p.getQuantity();
+                totalPrice += quantity * price;
+            }
+            totalPrice = totalPrice - (totalPrice * discountValue) / 100;
+        }else {
+            System.out.println("слишком большая скидка");
         }
-        return result;
     }
 }
