@@ -1,7 +1,12 @@
 package program.utility.database;
 
-public abstract class DataRepository {
+import program.model.Cashier;
+import program.model.Product;
 
-    // хранение списка методы для удаления добавления в этот список
-    //private ArrayList<>
+import java.util.ArrayList;
+
+public class DataRepository {
+    private ArrayList<Product> productListFromDB = new ArrayList<>();
+    private ArrayList<Cashier> cashierListFromDB = new ArrayList<>();
+
 }

@@ -6,9 +6,6 @@ import program.model.Store;
 public class BasketTableModel extends DataModel {
     private Store store;
 
-    public BasketTableModel(Store store){
-        this.store = store;
-    }
     @Override
     public Object getValueAt(int i, int i1) {
         String result = "";
@@ -41,5 +38,13 @@ public class BasketTableModel extends DataModel {
     @Override
     public int getColumnCount() {
         return super.getColumnCount();
+    }
+
+    public void change(){
+        fireTableDataChanged();
+    }
+
+    public void setStore(Store store){
+        this.store = store;
     }
 }

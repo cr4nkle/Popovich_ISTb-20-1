@@ -35,4 +35,8 @@ public class Store {
     public Product getProduct(int index){
         return this.productList.get(index);
     }
+
+    public void deleteAllProduct(){
+        this.productList.clear();
+    }
 }

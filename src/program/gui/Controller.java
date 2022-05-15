@@ -35,9 +35,8 @@ public class Controller {
     }
     public void execute(){
         press();
-        BasketTableModel basketTableModel = new BasketTableModel(store);
-
-        view.getTable().setModel(new BasketTableModel(store));
+        view.getBasketTableModel().setStore(store);
+        view.getTable().setModel(view.getBasketTableModel());
         view.getCodeButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -111,8 +110,10 @@ public class Controller {
                         view.getInfoField().setText("");
                         break;
                     case 6:
-                        totalPrice = 0;
+                        store.deleteAllProduct();
+                        view.getBasketTableModel().change();//отправка запроса на удаление продуктов из бд
                         System.out.println(Float.parseFloat(result));//показ чека и очищение таблицы отправка запросов в бд
+                        totalPrice = 0;
                         break;
                 }
                 flag = 0;
@@ -251,16 +252,16 @@ public class Controller {
     }
 
     private void getResultPrice(){
+        float temp = 0;
         if(discountValue < Constant.DISCOUNT_LIMIT) {
-            totalPrice = 0;
             int price = 0;
             int quantity = 0;
             for (Product p : store.getProductList()) {
                 price = p.getPrice();
                 quantity = p.getQuantity();
-                totalPrice += quantity * price;
+                temp += quantity * price;
             }
-            totalPrice = totalPrice - (totalPrice * discountValue) / 100;
+            totalPrice = temp - (temp * discountValue) / 100;
         }else {
             System.out.println("слишком большая скидка");
         }

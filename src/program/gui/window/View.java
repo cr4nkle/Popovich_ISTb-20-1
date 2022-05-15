@@ -255,7 +255,7 @@ public class View extends JFrame {
         add(gridBagContainer, BorderLayout.SOUTH);
 
         table = new JTable();
-
+        basketTableModel = new BasketTableModel();
         table.getTableHeader().setFont(new Font("TimesRoman", Font.PLAIN, 20));
         table.setFont(new Font("TimesRoman", Font.PLAIN, 15));
 
@@ -371,5 +371,9 @@ public class View extends JFrame {
 
     public JButton getDeleteButton() {
         return deleteButton;
+    }
+
+    public BasketTableModel getBasketTableModel() {
+        return basketTableModel;
     }
 }
