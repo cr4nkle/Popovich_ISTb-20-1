@@ -1,9 +1,9 @@
 package program;
 
-import program.encryption.Encrypt;
-import program.gui.AuthenticationWindow;
+import program.utility.encryption.Encrypt;
+import program.gui.window.AuthenticationWindow;
 import program.gui.Controller;
-import program.gui.View;
+import program.gui.window.View;
 import program.model.Store;
 
 public class Main {
@@ -17,7 +17,5 @@ public class Main {
         Controller controller = new Controller(view, store);
         controller.execute();
         controller.executeAuthenticationWindow(authenticationWindow);
-        System.out.println(Encrypt.encrypt("1"));
-
     }
 }

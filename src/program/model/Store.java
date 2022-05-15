@@ -6,8 +6,9 @@ public class Store {
     //dataRepository сделать полем и вытаскивать от туда данные в списки ниже
     private ArrayList<Product> productList = new ArrayList<>();//список для хранения выбранного товара
     private ArrayList<Cashier> cashierList = new ArrayList<>();
+    //вынести пользователя админ в отдельный класс с утилитами
     public void add(){
-        this.cashierList.add(new Cashier("Sergey", "c4ca4238a0b92382dcc509a6f75849b"));
+        this.cashierList.add(new Cashier("админ", "админ"));
     }
     
     public Cashier getCashier(String fullName){

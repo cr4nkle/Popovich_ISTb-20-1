@@ -1,6 +1,6 @@
-package program.gui;
+package program.gui.window;
 
-import program.tablemodel.BasketTableModel;
+import program.gui.tablemodel.BasketTableModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -257,7 +257,7 @@ public class View extends JFrame {
 
         add(scrollPane, BorderLayout.CENTER);
         pack();
-        setVisible(true);
+        setVisible(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 

@@ -1,4 +1,6 @@
-package program.gui;
+package program.gui.window;
+
+import program.gui.window.View;
 
 import javax.swing.*;
 import java.awt.*;

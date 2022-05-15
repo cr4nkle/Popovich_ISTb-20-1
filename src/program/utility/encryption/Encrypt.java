@@ -1,4 +1,4 @@
-package program.encryption;
+package program.utility.encryption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;

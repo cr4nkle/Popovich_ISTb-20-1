@@ -1,4 +1,4 @@
-package program.tablemodel;
+package program.gui.tablemodel;
 
 import javax.swing.table.AbstractTableModel;
 

@@ -1,7 +1,10 @@
 package program.gui;
 
+import program.utility.encryption.Encrypt;
+import program.gui.window.AuthenticationWindow;
+import program.gui.window.View;
 import program.model.Store;
-import program.tablemodel.BasketTableModel;
+import program.gui.tablemodel.BasketTableModel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,7 +30,6 @@ public class Controller {
         view.getInfoField().setText(infoText);
     }
     public void execute(){
-        view.setVisible(false);
         press();
         view.getTable().setModel(new BasketTableModel());
         view.getCodeButton().addActionListener(new ActionListener() {
@@ -210,21 +212,32 @@ public class Controller {
         window.getAuthenticationButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                boolean login = login(window.getLoginField().getText(), window.getPasswordField().getText());
-                if (login){
-                    view.setVisible(true);
-                    window.dispose();
-                }//добавить окошко с ошибкой
+                boolean login = false;
+                try {
+                    login = login(window.getLoginField().getText(), window.getPasswordField().getText());
+                    if (login){
+                        view.setVisible(true);
+                        view.getCashierField().setText("Кассир:" + window.getLoginField().getText());
+                        window.dispose();
+                    }else{
+                        System.out.println("no");
+                        //добавить окошко с ошибкой
+                    }
+                } catch (Exception e) {
+                    System.out.println("нет кассира");
+                }
+
 
             }
         });
     }
 
-    private boolean login(String fullName, String password){
+    private boolean login(String fullName, String password) throws Exception{
         boolean checkFlag = false;
-        if (store.getCashier(fullName).getPassword().equalsIgnoreCase(password)){
+        if (store.getCashier(fullName).getPassword().equalsIgnoreCase(Encrypt.encrypt(password))){
             checkFlag = true;
         }
+
         return checkFlag;
     }
 }

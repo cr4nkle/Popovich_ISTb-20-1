@@ -1,12 +1,14 @@
 package program.model;
 
+import program.utility.encryption.Encrypt;
+
 public class Cashier {
     private String fullName;
     private String password;
 
     public Cashier(String fullName, String password){
         this.fullName = fullName;
-        this.password = password;
+        this.password = Encrypt.encrypt(password);//сразу шифрует может быть лишним
     }
 
     public Cashier(Cashier cashier){

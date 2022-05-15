@@ -1,4 +1,4 @@
-package program.tablemodel;
+package program.gui.tablemodel;
 
 public class BasketTableModel extends DataModel {
     // добавить класс со списком

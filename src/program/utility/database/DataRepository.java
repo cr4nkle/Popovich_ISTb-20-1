@@ -1,8 +1,6 @@
-package program.database;
+package program.utility.database;
 
-import java.util.ArrayList;
-
-public class DataRepository {
+public abstract class DataRepository {
 
     // хранение списка методы для удаления добавления в этот список
     //private ArrayList<>
