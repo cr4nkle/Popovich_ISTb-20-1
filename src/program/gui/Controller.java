@@ -31,7 +31,7 @@ public class Controller {
     }
     public void execute(){
         press();
-        view.getTable().setModel(new BasketTableModel());
+        view.getTable().setModel(new BasketTableModel(store));
         view.getCodeButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {

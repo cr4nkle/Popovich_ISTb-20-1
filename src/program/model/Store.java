@@ -9,6 +9,7 @@ public class Store {
     //вынести пользователя админ в отдельный класс с утилитами
     public void add(){
         this.cashierList.add(new Cashier("админ", "админ"));
+        this.productList.add(new Product(444,"milk",59,78));
     }
     
     public Cashier getCashier(String fullName){
@@ -19,5 +20,17 @@ public class Store {
             }
         }
         return cashier;
+    }
+
+    public ArrayList<Product> getProductList() {
+        return productList;
+    }
+
+    public int getProductListSize(){
+        return this.productList.size();
+    }
+
+    public Product getProduct(int index){
+        return this.productList.get(index);
     }
 }

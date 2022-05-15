@@ -11,13 +11,16 @@ public class AuthenticationWindow extends JFrame {
     private JTextField loginField;
     private JTextField passwordField;
     private JButton authenticationButton;
+    private Container container;
 
     public AuthenticationWindow(View view){
         setTitle("Аутентификация");
+        Font font = new Font("TimesRoman", Font.PLAIN, 25);
         loginLabel = new JLabel("ФИО");
         passwordLabel = new JLabel("Пароль");
         authenticationButton = new JButton("Войти");
-        Font font = new Font("TimesRoman", Font.PLAIN, 25);
+        authenticationButton.setFont(font);
+        //authenticationButton.setSize(new Dimension(50, 50));
         loginLabel.setFont(font);
         passwordLabel.setFont(font);
         loginField = new JTextField();
@@ -26,7 +29,9 @@ public class AuthenticationWindow extends JFrame {
         passwordField = new JTextField();
         passwordField.setFont(font);
         passwordField.setPreferredSize(new Dimension(250,30));
-        this.setLayout(new GridBagLayout());
+        container = new Container();
+        container.setLayout(new GridBagLayout());
+
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.BOTH;
         constraints.insets    = new Insets(2, 2, 2, 2);
@@ -35,26 +40,24 @@ public class AuthenticationWindow extends JFrame {
 
         constraints.gridx = 0;
         constraints.gridy = 0;
-        add(loginLabel, constraints);
+        container.add(loginLabel, constraints);
 
         constraints.gridx = 0;
         constraints.gridy = 1;
-        add(passwordLabel, constraints);
-
-        constraints.gridwidth = 1;
-        constraints.gridx = 2;
-        constraints.gridy = 2;
-        add(authenticationButton, constraints);
+        container.add(passwordLabel, constraints);
 
         constraints.gridwidth = 2;
         constraints.gridheight = 1;
         constraints.gridx = 1;
         constraints.gridy = 0;
-        add(loginField, constraints);
+        container.add(loginField, constraints);
 
         constraints.gridx = 1;
         constraints.gridy = 1;
-        add(passwordField, constraints);
+        container.add(passwordField, constraints);
+
+        add(container, BorderLayout.CENTER);
+        add(authenticationButton, BorderLayout.SOUTH);
         pack();
         setVisible(true);
 

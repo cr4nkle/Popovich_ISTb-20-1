@@ -12,4 +12,20 @@ public class Product {
         this.price = price;
         this.quantity = quantity;
     }
+
+    public int getCode() {
+        return code;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

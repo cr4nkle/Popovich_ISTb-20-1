@@ -3,6 +3,8 @@ package program.gui.window;
 import program.gui.tablemodel.BasketTableModel;
 
 import javax.swing.*;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -252,12 +254,15 @@ public class View extends JFrame {
         add(gridBagContainer, BorderLayout.SOUTH);
 
         table = new JTable();
+
+        table.getTableHeader().setFont(new Font("TimesRoman", Font.PLAIN, 20));
         scrollPane = new JScrollPane(table);
         scrollPane.setPreferredSize(new Dimension(1112,406));
 
         add(scrollPane, BorderLayout.CENTER);
         pack();
-        setVisible(false);
+        //setVisible(false); для аутентификации
+        setVisible(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
