@@ -107,7 +107,9 @@ public abstract class SqliteHelper {
         statement.execute();
         statement.close();
     }
-
+    //Class<?>
     public abstract Product searchProduct(int code);
     public abstract Cashier searchCashier(String name);
+    public abstract void setProductArrayList(ArrayList<Product> list);
+    public abstract void setCashierArrayList(ArrayList<Cashier> list);
 }

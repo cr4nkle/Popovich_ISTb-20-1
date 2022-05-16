@@ -6,8 +6,8 @@ import program.model.Product;
 import java.util.ArrayList;
 //добавить обработку исключений
 public class DataBase extends SqliteHelper{//класс который реализует абстрактный
-    private ArrayList<Product> allProductList = super.getProductList();
-    private ArrayList<Cashier> allCashierList = super.getCashierList();
+    private ArrayList<Product> allProductList = new ArrayList<>();
+    private ArrayList<Cashier> allCashierList = new ArrayList<>();
 
     @Override
     public Product searchProduct(int code) {
@@ -29,6 +29,16 @@ public class DataBase extends SqliteHelper{//класс который реал�
             }
         }
         return cashier;
+    }
+
+    @Override
+    public void setProductArrayList(ArrayList<Product> list) {
+        this.allProductList = list;
+    }
+
+    @Override
+    public void setCashierArrayList(ArrayList<Cashier> list) {
+        this.allCashierList = list;
     }
 
 

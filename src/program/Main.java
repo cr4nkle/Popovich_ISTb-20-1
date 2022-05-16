@@ -33,6 +33,8 @@ public class Main {
             //DataBase.deleteProduct(1);
             //DataBase.buyProduct(1, 20);
             controller.setDataBase(dataBase);
+            dataBase.setProductArrayList(dataBase.getProductList());
+            dataBase.setCashierArrayList(dataBase.getCashierList());
             store.setCashierList(dataBase.getCashierList());
             dataBase.closeDB();
         }catch (Exception e){
