@@ -46,4 +46,13 @@ public class Store {
         this.productList = productList;
     }
 
+    public void setCashierList(ArrayList<Cashier> cashierList) {
+        this.cashierList = cashierList;
+    }
+
+    public void addProduct(Product product){
+        this.productList.add(product);
+    }
+
+
 }

@@ -2,6 +2,7 @@ package program.gui;
 
 import program.model.Product;
 import program.utility.constant.Constant;
+import program.utility.database.DataBase;
 import program.utility.encryption.Encrypt;
 import program.gui.window.AuthenticationWindow;
 import program.gui.window.View;
@@ -16,7 +17,8 @@ public class Controller {
     private boolean pressFlag = false;//флаг для понимания нажата ли кнопка
     private String infoText = "";
     private View view;
-    private Store store;
+    private Store store;//добасить поле с базой данных
+    private DataBase dataBase;
     private int discountValue = 0;
     private float totalPrice = 0;
 
@@ -103,7 +105,8 @@ public class Controller {
                     case 3:
                         break;
                     case 4://поиск по введенному коду показ в таблицу продукта
-                        System.out.println(result);
+                        store.addProduct(dataBase.searchProduct(Integer.parseInt(result)));
+                        view.getBasketTableModel().change();
                         break;
                     case 5://сделать ограничение ввода скидки
                         discountValue = Integer.parseInt(result);
@@ -265,5 +268,9 @@ public class Controller {
         }else {
             System.out.println("слишком большая скидка");
         }
+    }
+
+    public void setDataBase(DataBase dataBase){
+        this.dataBase = dataBase;
     }
 }

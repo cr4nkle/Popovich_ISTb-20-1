@@ -14,6 +14,7 @@ public class Main {
 	// write your code here
         View view = new View();
         Store store = new Store();
+        DataBase dataBase = new DataBase();
         //store.add();
         //AuthenticationWindow authenticationWindow = new AuthenticationWindow(view);
         Controller controller = new Controller(view, store);
@@ -27,13 +28,13 @@ public class Main {
             System.out.println(e.getMessage());
         }*/
         try {
-            DataBase.initDB();
+            dataBase.initDB();
             //DataBase.addProduct(new Product(1, "хлеб", 30, 100));
             //DataBase.deleteProduct(1);
             //DataBase.buyProduct(1, 20);
-            store.setProductList(new DataBase().getProductList());
-            view.getBasketTableModel().change();
-            DataBase.closeDB();
+            controller.setDataBase(dataBase);
+            store.setCashierList(dataBase.getCashierList());
+            dataBase.closeDB();
         }catch (Exception e){
             System.out.println(e.getMessage());
         }

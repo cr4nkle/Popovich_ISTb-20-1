@@ -13,6 +13,13 @@ public class Product {
         this.quantity = quantity;
     }
 
+    public Product(Product product){
+        this.code = product.code;
+        this.name = product.name;
+        this.price = product.price;
+        this.quantity = product.quantity;
+    }
+
     public int getCode() {
         return code;
     }
