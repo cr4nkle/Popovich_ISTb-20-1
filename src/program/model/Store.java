@@ -1,5 +1,7 @@
 package program.model;
 
+import program.utility.database.DataBase;
+
 import java.util.ArrayList;
 
 public class Store {
@@ -7,12 +9,12 @@ public class Store {
     private ArrayList<Product> productList = new ArrayList<>();//список для хранения выбранного товара
     private ArrayList<Cashier> cashierList = new ArrayList<>();
 
-    public void add(){
+    /*public void add(){
         this.cashierList.add(new Cashier("админ", "админ"));
         this.productList.add(new Product(444,"milk",59,78));
         this.productList.add(new Product(445,"juice",59,70));
         this.productList.add(new Product(446,"bread",50,5));
-    }
+    }*/
     
     public Cashier getCashier(String fullName){
         Cashier cashier = null;
@@ -39,4 +41,9 @@ public class Store {
     public void deleteAllProduct(){
         this.productList.clear();
     }
+
+    public void setProductList(ArrayList<Product> productList) {
+        this.productList = productList;
+    }
+
 }

@@ -12,7 +12,8 @@ public class DataBase {//класс который реализует абстр
     private static ResultSet resSet;
     public static final String PATH_TO_DB_FILE = "storeDB.db";
     public static final String URL = "jdbc:sqlite:" + PATH_TO_DB_FILE;
-    private ArrayList<Product> a;
+    //private ArrayList<Product> allProductList = new ArrayList<>();
+    private static ArrayList<Cashier> allCashierList = new ArrayList<>();
 
 // для 6 лабы
     public static void initDB() throws SQLException{
@@ -86,6 +87,25 @@ public class DataBase {//класс который реализует абстр
         statement.setObject(2, code);
         statement.execute();
         statement.close();
+    }
+
+    public ArrayList<Product> getProductList(){
+        ArrayList<Product> allProductList = new ArrayList<>();
+        try{
+            statement = connection.prepareStatement("SELECT * FROM products");
+            resSet = statement.executeQuery();
+            while (resSet.next()) {
+                allProductList.add(new Product(resSet.getInt("product_id"),
+                        resSet.getString("product_name"),
+                        resSet.getInt("price"),
+                        resSet.getInt("quantity")));
+                System.out.println(resSet.getInt("product_id"));
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage() + "h");
+        }
+
+        return allProductList;
     }
 
     /*public static void createReceipt(){
