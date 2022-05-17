@@ -1,5 +1,6 @@
 package program;
 
+import program.model.Cashier;
 import program.model.Product;
 import program.utility.database.DataBase;
 import program.utility.encryption.Encrypt;
@@ -16,10 +17,10 @@ public class Main {
         Store store = new Store();
         DataBase dataBase = new DataBase();
         //store.add();
-        //AuthenticationWindow authenticationWindow = new AuthenticationWindow(view);
+        AuthenticationWindow authenticationWindow = new AuthenticationWindow(view);
         Controller controller = new Controller(view, store);
         controller.execute();
-        //controller.executeAuthenticationWindow(authenticationWindow);
+        controller.executeAuthenticationWindow(authenticationWindow);
         /*try{
             DataBase.initDB();
             DataBase.createDB();
@@ -29,9 +30,14 @@ public class Main {
         }*/
         try {
             dataBase.initDB();
-            //DataBase.addProduct(new Product(1, "хлеб", 30, 100));
+            //dataBase.createDB();
+            //dataBase.addProduct(new Product(444, "хлеб", 20, 100));
+            //dataBase.addProduct(new Product(445, "молоко", 30, 100));
+            //dataBase.addProduct(new Product(446, "кефир", 40, 100));
             //DataBase.deleteProduct(1);
             //DataBase.buyProduct(1, 20);
+            dataBase.
+            //dataBase.addCashier(new Cashier("Сергей", "админ"));
             controller.setDataBase(dataBase);
             dataBase.setProductArrayList(dataBase.getProductList());
             dataBase.setCashierArrayList(dataBase.getCashierList());
@@ -40,6 +46,5 @@ public class Main {
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
-
     }
 }

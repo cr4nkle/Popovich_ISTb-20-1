@@ -8,7 +8,7 @@ public class Cashier {
 
     public Cashier(String fullName, String password){
         this.fullName = fullName;
-        this.password = Encrypt.encrypt(password);//сразу шифрует может быть лишним
+        this.password = password;//сразу шифрует может быть лишним
     }
 
     public Cashier(Cashier cashier){

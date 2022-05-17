@@ -3,6 +3,7 @@ package program.utility.database;
 import program.model.Cashier;
 import program.model.Product;
 import program.utility.constant.Constant;
+import program.utility.encryption.Encrypt;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -31,21 +32,22 @@ public abstract class SqliteHelper {
                 "'password' text);");
         statement.execute();
         statement = connection.prepareStatement("CREATE TABLE if not exists 'products' "
-                + "('product_id' INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + "('product_id' INTEGER PRIMARY KEY UNIQUE CHECK('product_id' >0), "
                 + "'product_name' text, "
                 + "'price' INT, "
                 + "'quantity' INT);");
         statement.execute();
         statement = connection.prepareStatement("CREATE TABLE if not exists 'receipts' " +
                 "('receipts_id' INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "'cashier_id' INT, " +
-                "'product_id' INT, " +
+                "'cashier_id' INT NULL , " +
+                "'product_id' INT NULL, " +
                 "'total_price' INT, " +
                 "FOREIGN KEY (cashier_id) REFERENCES cashiers(cashier_id), " +
                 "FOREIGN KEY (product_id) REFERENCES cashiers(product_id));");
         statement.execute();
         statement.close();
     }
+
     public void buyProduct(int code, int quantity) throws SQLException {
         statement = connection.prepareStatement(" UPDATE 'products'  SET quantity = ? WHERE 'product_id' = ?;");
         statement.setObject(1, quantity);
@@ -75,7 +77,7 @@ public abstract class SqliteHelper {
     public ArrayList<Cashier> getCashierList(){
         ArrayList<Cashier> allCashierList = new ArrayList<>();
         try{
-            statement = connection.prepareStatement("SELECT 'full_name', 'password' FROM cashiers");
+            statement = connection.prepareStatement("SELECT * FROM cashiers");
             resSet = statement.executeQuery();
             while (resSet.next()) {
                 allCashierList.add(new Cashier(resSet.getString("full_name"),
@@ -100,13 +102,15 @@ public abstract class SqliteHelper {
         statement.execute();
         statement.close();
     }
+
     public void addCashier(Cashier cashier) throws SQLException{
-        statement = connection.prepareStatement("INSERT INTO 'buyers'('name') VALUES (?,?);");
+        statement = connection.prepareStatement("INSERT INTO 'cashiers'('full_name', 'password') VALUES (?,?);");
         statement.setObject(1, cashier.getFullName());
-        statement.setObject(2, cashier.getPassword());
+        statement.setObject(2, Encrypt.encrypt(cashier.getPassword()));
         statement.execute();
         statement.close();
     }
+    //public void buy
     //Class<?>
     public abstract Product searchProduct(int code);
     public abstract Cashier searchCashier(String name);

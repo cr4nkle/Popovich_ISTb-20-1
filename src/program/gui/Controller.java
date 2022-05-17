@@ -237,6 +237,7 @@ public class Controller {
                         //добавить окошко с ошибкой
                     }
                 } catch (Exception e) {
+                    System.out.println(e.getMessage());
                     System.out.println("нет кассира");
                 }
 
@@ -247,10 +248,12 @@ public class Controller {
 
     private boolean login(String fullName, String password) throws Exception{
         boolean checkFlag = false;
-        if (store.getCashier(fullName).getPassword().equalsIgnoreCase(Encrypt.encrypt(password))){
+        String s = Encrypt.encrypt(password);
+        System.out.println(s);
+        System.out.println(store.getCashier(fullName).getPassword());//djpdhfoftncz ytdthysq gfhjkm
+        if (store.getCashier(fullName).getPassword().equals(s)){
             checkFlag = true;
         }
-
         return checkFlag;
     }
 
