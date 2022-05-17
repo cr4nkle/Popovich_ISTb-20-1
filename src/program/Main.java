@@ -17,10 +17,10 @@ public class Main {
         Store store = new Store();
         DataBase dataBase = new DataBase();
         //store.add();
-        AuthenticationWindow authenticationWindow = new AuthenticationWindow(view);
+        //AuthenticationWindow authenticationWindow = new AuthenticationWindow(view);
         Controller controller = new Controller(view, store);
         controller.execute();
-        controller.executeAuthenticationWindow(authenticationWindow);
+        //controller.executeAuthenticationWindow(authenticationWindow);
         /*try{
             DataBase.initDB();
             DataBase.createDB();

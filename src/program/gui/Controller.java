@@ -12,7 +12,6 @@ import program.gui.tablemodel.BasketTableModel;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 
 public class Controller {
     private int flag;
@@ -65,11 +64,7 @@ public class Controller {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {//показ итоговой суммы
                 infoText = "Итоговая сумма:";
-                try {
-                    getResultPrice();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                getResultPrice();
                 view.getInfoField().setText(infoText + " " + totalPrice + Constant.RUB);
                 //запуск вычислений
                 flag = 0;
@@ -102,9 +97,12 @@ public class Controller {
             public void actionPerformed(ActionEvent actionEvent) {
                 String result = view.getInfoField().getText();
                 switch (flag){
-                    case 1://показ таблицы корзины с нужным кол-вом товара
+                    case 1://показ таблицы корзины с нужным кол-вом товара кнопка кол-во
                         //проверка количества продукта
+                        System.out.println(view.getTable().getSelectedRow());
                         view.getInfoField().setText(infoText);
+                        showMessage();
+                        view.getInfoField().setText("");
                         flag = 0;
                         System.out.println(result);//вывод в консоль для отладки
                         break;
@@ -112,64 +110,65 @@ public class Controller {
                         break;
                     case 3:
                         break;
-                    case 4://поиск по введенному коду показ в таблицу продукта
+                    case 4://поиск по введенному коду показ в таблицу продукта кнопка код
                         try{
                             store.addProduct(dataBase.searchProduct(Integer.parseInt(result)));
                             view.getBasketTableModel().change();
                             view.getInfoField().setText(infoText);
                             view.getInfoField().setText("");
+                            showMessage();
                             flag = 0;
                         }catch(NumberFormatException ne){
                             JOptionPane.showMessageDialog(view,
                                     "Неверный формат ввода!!",
-                                    "Окно сообщения", JOptionPane.INFORMATION_MESSAGE, null);
+                                    "Ошибка", JOptionPane.WARNING_MESSAGE, null);
                         }catch (Exception e){
                             JOptionPane.showMessageDialog(view,
                                     e.getMessage(),
-                                    "Окно сообщения", JOptionPane.INFORMATION_MESSAGE, null);
+                                    "Ошибка", JOptionPane.WARNING_MESSAGE, null);
                         }
                         break;
-                    case 5://сделать ограничение ввода скидки
+                    case 5://сделать ограничение ввода скидки кнопка скидка
                         try{
                             discountValue = Integer.parseInt(result);
                             if(discountValue < 0 || discountValue > Constant.DISCOUNT_LIMIT)
                                 throw new Exception("Не корректное значение скидки!!");
                             view.getInfoField().setText("");
+                            showMessage();
                             flag = 0;
                         }catch (NumberFormatException ne){
                             JOptionPane.showMessageDialog(view,
                                     "Неверный формат ввода!!",
-                                    "Окно сообщения", JOptionPane.INFORMATION_MESSAGE, null);
+                                    "Ошибка", JOptionPane.WARNING_MESSAGE, null);
                         }catch (Exception e ){
                             view.getInfoField().setText("");
                             discountValue = 0;
+                            infoText = "";
                             JOptionPane.showMessageDialog(view,
                                     e.getMessage(),
-                                    "Окно сообщения", JOptionPane.INFORMATION_MESSAGE, null);
+                                    "Ошибка", JOptionPane.WARNING_MESSAGE, null);
                         }
                         break;
-                    case 6://отправка запроса на удаление продуктов из бд
+                    case 6://отправка запроса на удаление продуктов из бд кнопка оплата
                         try {
                             System.out.println(getChange(Float.parseFloat(result)));
                             System.out.println(totalPrice);
+                            showMessage();
                             flag = 0;
                         } catch (NumberFormatException ne){
                             JOptionPane.showMessageDialog(view,
                                     ne.getMessage(),
-                                    "Окно сообщения", JOptionPane.INFORMATION_MESSAGE, null);
+                                    "Ошибка", JOptionPane.WARNING_MESSAGE, null);
                         }catch (Exception e) {
                             JOptionPane.showMessageDialog(view,
                                     e.getMessage(),
-                                    "Окно сообщения", JOptionPane.INFORMATION_MESSAGE, null);
+                                    "Ошибка", JOptionPane.WARNING_MESSAGE, null);
                         }
-                        store.deleteAllProduct();
+                        store.deleteAllProduct();//проверка вдруг количество товара 0
                         view.getBasketTableModel().change();//показ чека и очищение таблицы отправка запросов в бд
-                        totalPrice = 0;
+                        totalPrice = 0;//разобраться с запросом обновления
                         break;
                 }
-                JOptionPane.showMessageDialog(view,
-                        "Значение успешно введено",
-                        "Окно сообщения", JOptionPane.INFORMATION_MESSAGE, null);
             }
         });
 
@@ -182,6 +181,12 @@ public class Controller {
             }
         });
 
+    }
+
+    private void showMessage(){
+        JOptionPane.showMessageDialog(view,
+                "Значение успешно введено",
+                "Окно сообщения", JOptionPane.INFORMATION_MESSAGE, null);
     }
 
     private void press(){

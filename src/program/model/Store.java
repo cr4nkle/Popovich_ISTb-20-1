@@ -50,6 +50,7 @@ public class Store {
     }
 
     public void addProduct(Product product){
+        product.setQuantity(0);
         this.productList.add(product);
     }
 
