@@ -19,7 +19,7 @@ public class Controller {
     private boolean pressFlag = false;//флаг для понимания нажата ли кнопка
     private String infoText = "";
     private View view;
-    private Store store;//добасить поле с базой данных
+    private Store store;//добавить поле с базой данных
     private DataBase dataBase;
     private int discountValue = 0;
     private float totalPrice = 0;
@@ -65,7 +65,11 @@ public class Controller {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {//показ итоговой суммы
                 infoText = "Итоговая сумма:";
-                getResultPrice();
+                try {
+                    getResultPrice();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 view.getInfoField().setText(infoText + " " + totalPrice + Constant.RUB);
                 //запуск вычислений
                 flag = 0;
@@ -113,10 +117,11 @@ public class Controller {
                             store.addProduct(dataBase.searchProduct(Integer.parseInt(result)));
                             view.getBasketTableModel().change();
                             view.getInfoField().setText(infoText);
+                            view.getInfoField().setText("");
                             flag = 0;
                         }catch(NumberFormatException ne){
                             JOptionPane.showMessageDialog(view,
-                                    "Название успешно введено!!",
+                                    "Неверный формат ввода!!",
                                     "Окно сообщения", JOptionPane.INFORMATION_MESSAGE, null);
                         }catch (Exception e){
                             JOptionPane.showMessageDialog(view,
@@ -127,7 +132,7 @@ public class Controller {
                     case 5://сделать ограничение ввода скидки
                         try{
                             discountValue = Integer.parseInt(result);
-                            if(discountValue < 0 && discountValue > Constant.DISCOUNT_LIMIT)
+                            if(discountValue < 0 || discountValue > Constant.DISCOUNT_LIMIT)
                                 throw new Exception("Не корректное значение скидки!!");
                             view.getInfoField().setText("");
                             flag = 0;
@@ -136,15 +141,25 @@ public class Controller {
                                     "Неверный формат ввода!!",
                                     "Окно сообщения", JOptionPane.INFORMATION_MESSAGE, null);
                         }catch (Exception e ){
+                            view.getInfoField().setText("");
+                            discountValue = 0;
                             JOptionPane.showMessageDialog(view,
                                     e.getMessage(),
                                     "Окно сообщения", JOptionPane.INFORMATION_MESSAGE, null);
                         }
                         break;
-                    case 6:
+                    case 6://отправка запроса на удаление продуктов из бд
+                        try {
+                            System.out.println(getChange(Float.parseFloat(result)));
+                            System.out.println(totalPrice);
+                        } catch (Exception e) {
+                            JOptionPane.showMessageDialog(view,
+                                    e.getMessage(),
+                                    "Окно сообщения", JOptionPane.INFORMATION_MESSAGE, null);
+                        }
+                        System.out.println(Float.parseFloat(result));
                         store.deleteAllProduct();
-                        view.getBasketTableModel().change();//отправка запроса на удаление продуктов из бд
-                        System.out.println(Float.parseFloat(result));//показ чека и очищение таблицы отправка запросов в бд
+                        view.getBasketTableModel().change();//показ чека и очищение таблицы отправка запросов в бд
                         totalPrice = 0;
                         flag = 0;
                         break;
@@ -285,20 +300,23 @@ public class Controller {
         return checkFlag;
     }
 
-    private void getResultPrice(){
+    private void getResultPrice() {
         float temp = 0;
-        if(discountValue < Constant.DISCOUNT_LIMIT) {
-            int price = 0;
-            int quantity = 0;
-            for (Product p : store.getProductList()) {
-                price = p.getPrice();
-                quantity = p.getQuantity();
-                temp += quantity * price;
-            }
-            totalPrice = temp - (temp * discountValue) / 100;
-        }else {
-            System.out.println("слишком большая скидка");
+        int price = 0;
+        int quantity = 0;
+        for (Product p : store.getProductList()) {
+            price = p.getPrice();
+            quantity = p.getQuantity();
+            temp += quantity * price;
         }
+        totalPrice = temp - (temp * discountValue) / 100;
+    }
+
+    private double getChange(double enterAmount) throws Exception {
+        getResultPrice();
+        if(enterAmount < totalPrice)
+            throw new Exception("Введено недостаточное кол-во денежных средств!!");
+        return 0;
     }
 
     public void setDataBase(DataBase dataBase){
