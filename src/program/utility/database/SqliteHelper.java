@@ -49,11 +49,13 @@ public abstract class SqliteHelper {
     }
 
     public void buyProduct(int code, int quantity) throws SQLException {
-        statement = connection.prepareStatement(" UPDATE 'products'  SET quantity = ? WHERE 'product_id' = ?;");
+        initDB();
+        statement = connection.prepareStatement(" UPDATE 'products'  SET 'quantity' = ? WHERE 'product_id' = ?;");
         statement.setObject(1, quantity);
         statement.setObject(2, code);
-        statement.execute();
+        statement.executeUpdate();
         statement.close();
+        closeDB();
     }
 
     public ArrayList<Product> getProductList(){//подумать как сделать более универсально
@@ -119,7 +121,7 @@ public abstract class SqliteHelper {
     }
 
     //Class<?>
-    public abstract Product searchProduct(int code);
+    public abstract Product searchProduct(int code) throws Exception;
     public abstract Cashier searchCashier(String name);
     public abstract void setProductArrayList(ArrayList<Product> list);
     public abstract void setCashierArrayList(ArrayList<Cashier> list);

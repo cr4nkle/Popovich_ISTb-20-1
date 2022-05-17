@@ -9,8 +9,10 @@ import program.gui.window.View;
 import program.model.Store;
 import program.gui.tablemodel.BasketTableModel;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class Controller {
     private int flag;
@@ -105,21 +107,45 @@ public class Controller {
                     case 3:
                         break;
                     case 4://поиск по введенному коду показ в таблицу продукта
-                        store.addProduct(dataBase.searchProduct(Integer.parseInt(result)));
-                        view.getBasketTableModel().change();
+                        try{
+                            store.addProduct(dataBase.searchProduct(Integer.parseInt(result)));
+                            view.getBasketTableModel().change();
+                            flag = 0;
+                        }catch(NumberFormatException ne){
+                            JOptionPane.showMessageDialog(view,
+                                    "Название успешно введено!!",
+                                    "Окно сообщения", JOptionPane.INFORMATION_MESSAGE, null);
+                        }catch (Exception e){
+                            JOptionPane.showMessageDialog(view,
+                                    e.getMessage(),
+                                    "Окно сообщения", JOptionPane.INFORMATION_MESSAGE, null);
+                        }
                         break;
                     case 5://сделать ограничение ввода скидки
-                        discountValue = Integer.parseInt(result);
-                        view.getInfoField().setText("");
+                        try{
+                            discountValue = Integer.parseInt(result);
+                            if(discountValue < 0 && discountValue > Constant.DISCOUNT_LIMIT)
+                                throw new Exception("Не корректное значение скидки!!");
+                            view.getInfoField().setText("");
+                            flag = 0;
+                        }catch (NumberFormatException ne){
+                            JOptionPane.showMessageDialog(view,
+                                    "Неверный формат ввода!!",
+                                    "Окно сообщения", JOptionPane.INFORMATION_MESSAGE, null);
+                        }catch (Exception e ){
+                            JOptionPane.showMessageDialog(view,
+                                    e.getMessage(),
+                                    "Окно сообщения", JOptionPane.INFORMATION_MESSAGE, null);
+                        }
                         break;
                     case 6:
                         store.deleteAllProduct();
                         view.getBasketTableModel().change();//отправка запроса на удаление продуктов из бд
                         System.out.println(Float.parseFloat(result));//показ чека и очищение таблицы отправка запросов в бд
                         totalPrice = 0;
+                        flag = 0;
                         break;
                 }
-                flag = 0;
             }
         });
 

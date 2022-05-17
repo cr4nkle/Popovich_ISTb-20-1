@@ -9,7 +9,7 @@ public class AuthenticationWindow extends JFrame {
     private JLabel loginLabel;
     private JLabel passwordLabel;
     private JTextField loginField;
-    private JTextField passwordField;
+    private JPasswordField passwordField;
     private JButton authenticationButton;
     private Container container;
 
@@ -26,9 +26,10 @@ public class AuthenticationWindow extends JFrame {
         loginField = new JTextField();
         loginField.setFont(font);
         loginField.setPreferredSize(new Dimension(250,30));
-        passwordField = new JTextField();
+        passwordField = new JPasswordField();
         passwordField.setFont(font);
         passwordField.setPreferredSize(new Dimension(250,30));
+        passwordField.setEchoChar('*');
         container = new Container();
         container.setLayout(new GridBagLayout());
 
@@ -62,14 +63,14 @@ public class AuthenticationWindow extends JFrame {
         setVisible(true);
 
         setLocationRelativeTo(view);
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     public JTextField getLoginField() {
         return loginField;
     }
 
-    public JTextField getPasswordField() {
+    public JPasswordField getPasswordField() {
         return passwordField;
     }
 

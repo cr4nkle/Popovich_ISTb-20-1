@@ -10,13 +10,15 @@ public class DataBase extends SqliteHelper{//класс который реал�
     private ArrayList<Cashier> allCashierList = new ArrayList<>();
 
     @Override
-    public Product searchProduct(int code) {
+    public Product searchProduct(int code) throws Exception {
         Product product = null;
         for (int i = 0; i < allProductList.size(); i++) {
             if(allProductList.get(i).getCode() == code){
                 product = new Product(allProductList.get(i));
             }
         }
+        if (product == null)
+            throw new Exception("Вы ввели неверный код!!");
         return product;
     }
 
