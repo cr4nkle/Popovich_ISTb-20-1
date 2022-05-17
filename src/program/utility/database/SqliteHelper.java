@@ -80,7 +80,8 @@ public abstract class SqliteHelper {
             statement = connection.prepareStatement("SELECT * FROM cashiers");
             resSet = statement.executeQuery();
             while (resSet.next()) {
-                allCashierList.add(new Cashier(resSet.getString("full_name"),
+                allCashierList.add(new Cashier(resSet.getInt("cashier_id"),
+                        resSet.getString("full_name"),
                         resSet.getString("password")));
             }
         }catch (Exception e){
@@ -91,14 +92,16 @@ public abstract class SqliteHelper {
     }
 
     public void addProduct(Product product) throws SQLException{
-        statement = connection.prepareStatement("INSERT INTO 'products'" +
-                "('product_name', " +
+        statement = connection.prepareStatement("INSERT INTO 'products' " +
+                "('product_id', " +
+                "'product_name', " +
                 "'price', " +
                 "'quantity') "
-                + "VALUES (?,?,?);");
-        statement.setObject(1, product.getName());
-        statement.setObject(2, product.getPrice());
-        statement.setObject(3, product.getQuantity());
+                + "VALUES (?,?,?,?);");
+        statement.setObject(1, product.getCode());
+        statement.setObject(2, product.getName());
+        statement.setObject(3, product.getPrice());
+        statement.setObject(4, product.getQuantity());
         statement.execute();
         statement.close();
     }
@@ -111,6 +114,10 @@ public abstract class SqliteHelper {
         statement.close();
     }
     //public void buy
+    public int getCashierID(){
+        return 0;
+    }
+
     //Class<?>
     public abstract Product searchProduct(int code);
     public abstract Cashier searchCashier(String name);

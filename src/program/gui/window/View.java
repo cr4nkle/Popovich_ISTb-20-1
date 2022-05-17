@@ -264,8 +264,7 @@ public class View extends JFrame {
 
         add(scrollPane, BorderLayout.CENTER);
         pack();
-        //setVisible(false); для аутентификации
-        setVisible(true);
+        setVisible(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 

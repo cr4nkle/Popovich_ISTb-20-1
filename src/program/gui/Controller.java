@@ -230,7 +230,7 @@ public class Controller {
                     login = login(window.getLoginField().getText(), window.getPasswordField().getText());
                     if (login){
                         view.setVisible(true);
-                        view.getCashierField().setText("Кассир:" + window.getLoginField().getText());
+                        view.getCashierField().setText("Кассир:" + window.getLoginField().getText() + " ");
                         window.dispose();
                     }else{
                         System.out.println("no");
@@ -248,10 +248,7 @@ public class Controller {
 
     private boolean login(String fullName, String password) throws Exception{
         boolean checkFlag = false;
-        String s = Encrypt.encrypt(password);
-        System.out.println(s);
-        System.out.println(store.getCashier(fullName).getPassword());//djpdhfoftncz ytdthysq gfhjkm
-        if (store.getCashier(fullName).getPassword().equals(s)){
+        if (store.getCashier(fullName).getPassword().equals(Encrypt.encrypt(password))){
             checkFlag = true;
         }
         return checkFlag;
