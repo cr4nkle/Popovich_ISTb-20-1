@@ -70,7 +70,7 @@ public class AuthenticationWindow extends JFrame {
         return loginField;
     }
 
-    public JPasswordField getPasswordField() {
+    public JTextField getPasswordField() {
         return passwordField;
     }
 

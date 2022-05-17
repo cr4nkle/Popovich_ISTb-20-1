@@ -100,6 +100,8 @@ public class Controller {
                 switch (flag){
                     case 1://показ таблицы корзины с нужным кол-вом товара
                         //проверка количества продукта
+                        view.getInfoField().setText(infoText);
+                        flag = 0;
                         System.out.println(result);//вывод в консоль для отладки
                         break;
                     case 2://штрих-код
@@ -110,6 +112,7 @@ public class Controller {
                         try{
                             store.addProduct(dataBase.searchProduct(Integer.parseInt(result)));
                             view.getBasketTableModel().change();
+                            view.getInfoField().setText(infoText);
                             flag = 0;
                         }catch(NumberFormatException ne){
                             JOptionPane.showMessageDialog(view,
@@ -259,15 +262,17 @@ public class Controller {
                         view.getCashierField().setText("Кассир:" + window.getLoginField().getText() + " ");
                         window.dispose();
                     }else{
-                        System.out.println("no");
-                        //добавить окошко с ошибкой
+                        JOptionPane.showMessageDialog(view,
+                                "Вы ввели неверный пароль!!",
+                                "Окно сообщения", JOptionPane.INFORMATION_MESSAGE, null);
+                        window.getPasswordField().setText("");
                     }
                 } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                    System.out.println("нет кассира");
+                    window.getLoginField().setText("");
+                    JOptionPane.showMessageDialog(view,
+                            "Кассир не найден!!",
+                            "Окно сообщения", JOptionPane.INFORMATION_MESSAGE, null);
                 }
-
-
             }
         });
     }
