@@ -5,7 +5,6 @@ import program.utility.database.DataBase;
 import java.util.ArrayList;
 
 public class Store {
-    //dataRepository сделать полем и вытаскивать от туда данные в списки ниже
     private ArrayList<Product> productList = new ArrayList<>();//список для хранения выбранного товара
     private ArrayList<Cashier> cashierList = new ArrayList<>();
 

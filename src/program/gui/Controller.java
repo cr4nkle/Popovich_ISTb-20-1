@@ -152,18 +152,24 @@ public class Controller {
                         try {
                             System.out.println(getChange(Float.parseFloat(result)));
                             System.out.println(totalPrice);
-                        } catch (Exception e) {
+                            flag = 0;
+                        } catch (NumberFormatException ne){
+                            JOptionPane.showMessageDialog(view,
+                                    ne.getMessage(),
+                                    "Окно сообщения", JOptionPane.INFORMATION_MESSAGE, null);
+                        }catch (Exception e) {
                             JOptionPane.showMessageDialog(view,
                                     e.getMessage(),
                                     "Окно сообщения", JOptionPane.INFORMATION_MESSAGE, null);
                         }
-                        System.out.println(Float.parseFloat(result));
                         store.deleteAllProduct();
                         view.getBasketTableModel().change();//показ чека и очищение таблицы отправка запросов в бд
                         totalPrice = 0;
-                        flag = 0;
                         break;
                 }
+                JOptionPane.showMessageDialog(view,
+                        "Значение успешно введено",
+                        "Окно сообщения", JOptionPane.INFORMATION_MESSAGE, null);
             }
         });
 
@@ -316,7 +322,8 @@ public class Controller {
         getResultPrice();
         if(enterAmount < totalPrice)
             throw new Exception("Введено недостаточное кол-во денежных средств!!");
-        return 0;
+        double res = enterAmount - totalPrice;
+        return res;
     }
 
     public void setDataBase(DataBase dataBase){
