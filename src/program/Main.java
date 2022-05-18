@@ -20,6 +20,7 @@ public class Main {
         //AuthenticationWindow authenticationWindow = new AuthenticationWindow(view);
         Controller controller = new Controller(view, store);
         controller.execute();
+
         //controller.executeAuthenticationWindow(authenticationWindow);
         /*try{
             DataBase.initDB();

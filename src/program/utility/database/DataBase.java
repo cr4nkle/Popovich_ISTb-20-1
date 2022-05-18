@@ -10,11 +10,23 @@ public class DataBase extends SqliteHelper{//класс который реал�
     private ArrayList<Cashier> allCashierList = new ArrayList<>();
 
     @Override
-    public Product searchProduct(int code) throws Exception {
+    public Product searchProduct(int code) throws Exception {//приравнивает ссылки
         Product product = null;
         for (int i = 0; i < allProductList.size(); i++) {
             if(allProductList.get(i).getCode() == code){
-                product = new Product(allProductList.get(i));
+                product = allProductList.get(i);//мб проблема вот тут из за неправильной ссылки
+            }
+        }
+        if (product == null)
+            throw new Exception("Вы ввели неверный код!!");
+        return product;
+    }
+
+    public Product copyProduct(int code) throws Exception {//создаёт новую ссылку на объект
+        Product product = null;
+        for (int i = 0; i < allProductList.size(); i++) {
+            if(allProductList.get(i).getCode() == code){
+                product = new Product(allProductList.get(i));//мб проблема вот тут из за неправильной ссылки
             }
         }
         if (product == null)
@@ -27,7 +39,7 @@ public class DataBase extends SqliteHelper{//класс который реал�
         Cashier cashier = null;
         for (int i = 0; i < allCashierList.size(); i++) {
             if(allCashierList.get(i).getFullName().equalsIgnoreCase(name)){
-                cashier = new Cashier(allCashierList.get(i));
+                cashier = allCashierList.get(i);
             }
         }
         return cashier;

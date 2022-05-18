@@ -103,18 +103,10 @@ public class Controller {
                             int index = view.getTable().getSelectedRow();
                             if (index == -1)
                                 throw new Exception("Строка не выбрана!!");
-                            Product product = store.getProduct(index);
-                            product.setQuantity(Integer.parseInt(result));
-                            view.getBasketTableModel().change();//не меняет значения после покупки берёт откуда то опять 100
-                            Product p = dataBase.searchProduct(product.getCode());
-                            System.out.println(p.getQuantity() + " до расчёта");
-
-                            p.setQuantity(checkQuantity(Integer.parseInt(result), product));
-                            System.out.println(result + " то что ввели");
-                            System.out.println(checkQuantity(Integer.parseInt(result), product) + " то что считает");
-                            System.out.println(p.getQuantity() + " остаток");
-                            System.out.println(dataBase.searchProduct(product.getCode()).getCode());//ставить значение на складе
-                            view.getInfoField().setText(infoText);
+                            Product product = store.getProduct(index);//получили продукт из списка магазина
+                            checkQuantity(Integer.parseInt(result),product);
+                            product.setQuantity(Integer.parseInt(result));// задаём новое значение количеству//одна ссылка на объект
+                            view.getBasketTableModel().change();//попросили модель таблицы обновиться
                             showMessage();
                             view.getInfoField().setText("");
                             flag = 0;
@@ -124,28 +116,27 @@ public class Controller {
                         case 3:
                             break;
                         case 4://поиск по введенному коду показ в таблицу продукта кнопка код
-                            store.addProduct(dataBase.searchProduct(Integer.parseInt(result)));
+                            store.addProduct(dataBase.copyProduct(Integer.parseInt(result)));
                             view.getBasketTableModel().change();
-                            view.getInfoField().setText(infoText);
-                            view.getInfoField().setText("");
                             showMessage();
+                            view.getInfoField().setText("");
                             flag = 0;
                             break;
                         case 5://сделать ограничение ввода скидки кнопка скидка
                             discountValue = Integer.parseInt(result);
                             if (discountValue < 0 || discountValue > Constant.DISCOUNT_LIMIT)
                                 throw new Exception("Не корректное значение скидки!!");
-                            view.getInfoField().setText("");
                             showMessage();
-                            flag = 0;
                             view.getInfoField().setText("");
-                            discountValue = 0;
-                            infoText = "";
+                            flag = 0;
                             break;
                         case 6://отправка запроса на удаление продуктов из бд кнопка оплата
                             System.out.println(getChange(Float.parseFloat(result)));
                             System.out.println(totalPrice);
+                            view.getInfoField().setText("");
                             showMessage();
+                            updateQuantity();
+                            System.out.println(dataBase.searchProduct(444).getQuantity());
                             flag = 0;
                             store.deleteAllProduct();//проверка вдруг количество товара 0
                             view.getBasketTableModel().change();//показ чека и очищение таблицы отправка запросов в бд
@@ -160,6 +151,10 @@ public class Controller {
                     JOptionPane.showMessageDialog(view,
                             e.getMessage(),
                             "Ошибка", JOptionPane.WARNING_MESSAGE, null);
+                    if (e.getMessage().equals("Не корректное значение скидки!!")){
+                        view.getInfoField().setText("");
+                        discountValue = 0;
+                    }
                 }
             }
         });
@@ -175,15 +170,25 @@ public class Controller {
 
     }
 
-    private int checkQuantity(int enterQuantity, Product product) throws Exception {
-        int res = 0;
+    private void updateQuantity() throws Exception {
+        int code;
+        int quantity;
+        for (int i = 0; i < store.getProductListSize(); i ++){
+            code = store.getProductList().get(i).getCode();
+            quantity = dataBase.searchProduct(code).getQuantity() - store.getProductList().get(i).getQuantity();
+            dataBase.searchProduct(code).setQuantity(quantity);
+        }
+    }
+
+    private void checkQuantity(int enterQuantity, Product product) throws Exception {
         Product tempProduct = dataBase.searchProduct(product.getCode());
         int temp = tempProduct.getQuantity();
-        if (enterQuantity < temp){
-            res = temp - enterQuantity;
-        }else
+        if (enterQuantity == 0)
+            throw new Exception("Количество равняется нулю!!");
+        if (temp == 0)
+            throw new Exception("Товар закончился на складе!!");
+        if (enterQuantity >= temp)
             throw new Exception("На складе не хватает товара!!");
-        return res;
     }
 
     private void showMessage(){
