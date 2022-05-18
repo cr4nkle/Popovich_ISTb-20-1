@@ -96,78 +96,70 @@ public class Controller {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 String result = view.getInfoField().getText();
-                switch (flag){
-                    case 1://показ таблицы корзины с нужным кол-вом товара кнопка кол-во
-                        //проверка количества продукта
-                        System.out.println(view.getTable().getSelectedRow());
-                        view.getInfoField().setText(infoText);
-                        showMessage();
-                        view.getInfoField().setText("");
-                        flag = 0;
-                        System.out.println(result);//вывод в консоль для отладки
-                        break;
-                    case 2://штрих-код
-                        break;
-                    case 3:
-                        break;
-                    case 4://поиск по введенному коду показ в таблицу продукта кнопка код
-                        try{
+                try {
+                    switch (flag){
+                        case 1://показ таблицы корзины с нужным кол-вом товара кнопка кол-во
+                            //проверка количества продукта
+                            int index = view.getTable().getSelectedRow();
+                            if (index == -1)
+                                throw new Exception("Строка не выбрана!!");
+                            Product product = store.getProduct(index);
+                            product.setQuantity(Integer.parseInt(result));
+                            view.getBasketTableModel().change();//не меняет значения после покупки берёт откуда то опять 100
+                            Product p = dataBase.searchProduct(product.getCode());
+                            System.out.println(p.getQuantity() + " до расчёта");
+
+                            p.setQuantity(checkQuantity(Integer.parseInt(result), product));
+                            System.out.println(result + " то что ввели");
+                            System.out.println(checkQuantity(Integer.parseInt(result), product) + " то что считает");
+                            System.out.println(p.getQuantity() + " остаток");
+                            System.out.println(dataBase.searchProduct(product.getCode()).getCode());//ставить значение на складе
+                            view.getInfoField().setText(infoText);
+                            showMessage();
+                            view.getInfoField().setText("");
+                            flag = 0;
+                            break;
+                        case 2://штрих-код
+                            break;
+                        case 3:
+                            break;
+                        case 4://поиск по введенному коду показ в таблицу продукта кнопка код
                             store.addProduct(dataBase.searchProduct(Integer.parseInt(result)));
                             view.getBasketTableModel().change();
                             view.getInfoField().setText(infoText);
                             view.getInfoField().setText("");
                             showMessage();
                             flag = 0;
-                        }catch(NumberFormatException ne){
-                            JOptionPane.showMessageDialog(view,
-                                    "Неверный формат ввода!!",
-                                    "Ошибка", JOptionPane.WARNING_MESSAGE, null);
-                        }catch (Exception e){
-                            JOptionPane.showMessageDialog(view,
-                                    e.getMessage(),
-                                    "Ошибка", JOptionPane.WARNING_MESSAGE, null);
-                        }
-                        break;
-                    case 5://сделать ограничение ввода скидки кнопка скидка
-                        try{
+                            break;
+                        case 5://сделать ограничение ввода скидки кнопка скидка
                             discountValue = Integer.parseInt(result);
-                            if(discountValue < 0 || discountValue > Constant.DISCOUNT_LIMIT)
+                            if (discountValue < 0 || discountValue > Constant.DISCOUNT_LIMIT)
                                 throw new Exception("Не корректное значение скидки!!");
                             view.getInfoField().setText("");
                             showMessage();
                             flag = 0;
-                        }catch (NumberFormatException ne){
-                            JOptionPane.showMessageDialog(view,
-                                    "Неверный формат ввода!!",
-                                    "Ошибка", JOptionPane.WARNING_MESSAGE, null);
-                        }catch (Exception e ){
                             view.getInfoField().setText("");
                             discountValue = 0;
                             infoText = "";
-                            JOptionPane.showMessageDialog(view,
-                                    e.getMessage(),
-                                    "Ошибка", JOptionPane.WARNING_MESSAGE, null);
-                        }
-                        break;
-                    case 6://отправка запроса на удаление продуктов из бд кнопка оплата
-                        try {
+                            break;
+                        case 6://отправка запроса на удаление продуктов из бд кнопка оплата
                             System.out.println(getChange(Float.parseFloat(result)));
                             System.out.println(totalPrice);
                             showMessage();
                             flag = 0;
-                        } catch (NumberFormatException ne){
-                            JOptionPane.showMessageDialog(view,
-                                    ne.getMessage(),
-                                    "Ошибка", JOptionPane.WARNING_MESSAGE, null);
-                        }catch (Exception e) {
-                            JOptionPane.showMessageDialog(view,
-                                    e.getMessage(),
-                                    "Ошибка", JOptionPane.WARNING_MESSAGE, null);
-                        }
-                        store.deleteAllProduct();//проверка вдруг количество товара 0
-                        view.getBasketTableModel().change();//показ чека и очищение таблицы отправка запросов в бд
-                        totalPrice = 0;//разобраться с запросом обновления
-                        break;
+                            store.deleteAllProduct();//проверка вдруг количество товара 0
+                            view.getBasketTableModel().change();//показ чека и очищение таблицы отправка запросов в бд
+                            totalPrice = 0;//разобраться с запросом обновления
+                            break;
+                    }
+                }catch (NumberFormatException ne) {
+                    JOptionPane.showMessageDialog(view,
+                            "Неверный формат ввода!!",
+                            "Ошибка", JOptionPane.WARNING_MESSAGE, null);
+                }catch(Exception e){
+                    JOptionPane.showMessageDialog(view,
+                            e.getMessage(),
+                            "Ошибка", JOptionPane.WARNING_MESSAGE, null);
                 }
             }
         });
@@ -181,6 +173,17 @@ public class Controller {
             }
         });
 
+    }
+
+    private int checkQuantity(int enterQuantity, Product product) throws Exception {
+        int res = 0;
+        Product tempProduct = dataBase.searchProduct(product.getCode());
+        int temp = tempProduct.getQuantity();
+        if (enterQuantity < temp){
+            res = temp - enterQuantity;
+        }else
+            throw new Exception("На складе не хватает товара!!");
+        return res;
     }
 
     private void showMessage(){
