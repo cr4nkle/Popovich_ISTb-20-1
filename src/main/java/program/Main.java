@@ -1,5 +1,6 @@
 package program;
 
+import program.gui.window.BarcodeInputWindow;
 import program.utility.barcode.Barcode;
 import program.utility.database.DataBase;
 import program.gui.window.AuthenticationWindow;
@@ -36,6 +37,12 @@ public class Main {
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
-
+        BarcodeInputWindow w = new BarcodeInputWindow();
+        System.out.println("*************************\n" +
+                           "*    ООО Продуктовый    *\n" +
+                           "*       г.Ангарск       *\n" +
+                           "*************************\n" +
+                           "КАССОВЫЙ ЧЕК:         № 1\n" +
+                "");
     }
 }

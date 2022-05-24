@@ -5,4 +5,7 @@ public class Constant {
     public static final int DISCOUNT_LIMIT = 50;//сдевится в каждом магазине своё значение
     public static final String PATH_TO_DB_FILE = "storeDB.db";
     public static final String URL = "jdbc:sqlite:" + PATH_TO_DB_FILE;
+    public static final String STORE_NAME = "ООО Продуктовый";
+    public static final String COUNTRY = "г.Ангарск";
+
 }
