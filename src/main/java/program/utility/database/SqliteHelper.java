@@ -55,8 +55,6 @@ public abstract class SqliteHelper {
 //        statement.setObject(2, code);
 //        statement.executeUpdate();
 //        statement.close();
-        System.out.println("finish");;
-
     }
 
     public ArrayList<Product> getProductList(){//подумать как сделать более универсально
@@ -117,15 +115,25 @@ public abstract class SqliteHelper {
         statement.close();
     }
 
-    public void payment(int id, int totalPrice) throws SQLException {
-        statement = connection.prepareStatement("INSERT INTO 'receipts'('cashier_id', 'total_price') VALUES (?,?);");
-        statement.setObject(1, id);
-        statement.setObject(2, totalPrice);
-        statement.execute();
-        statement.close();
+//    public void payment(int id, int totalPrice) throws SQLException {
+//        statement = connection.prepareStatement("INSERT INTO 'receipts'('cashier_id', 'total_price') VALUES (?,?);");
+//        statement.setObject(1, id);
+//        statement.setObject(2, totalPrice);
+//        statement.execute();
+//        statement.close();
+//    }
+
+    public int getCashierID(String full_name) throws SQLException {
+        statement = connection.prepareStatement("SELECT 'cashier_id' FROM 'cashiers' WHERE 'full_name' = ?;");
+        statement.setObject(1, full_name);
+        resSet = statement.executeQuery();
+        return resSet.getInt("cashier_id");
     }
-    public int getCashierID(){
-        return 0;
+
+    public  int getReceiptCount() throws SQLException {
+        statement = connection.prepareStatement("SELECT COUNT(receipts_id) from 'receipts';");
+        resSet = statement.executeQuery();
+        return resSet.getInt("COUNT(receipts_id)");
     }
 
     //Class<?>

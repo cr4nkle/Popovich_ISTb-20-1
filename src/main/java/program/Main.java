@@ -1,6 +1,7 @@
 package program;
 
 import program.gui.window.BarcodeInputWindow;
+import program.gui.window.ReceiptOutputWindow;
 import program.utility.barcode.Barcode;
 import program.utility.database.DataBase;
 import program.gui.window.AuthenticationWindow;
@@ -21,6 +22,7 @@ public class Main {
         controller.executeAuthenticationWindow(authenticationWindow);
         try {
             dataBase.initDB();
+
 //            dataBase.createDB();
 //            dataBase.addProduct(new Product(444, "хлеб", 20, 100));
 //            dataBase.addProduct(new Product(445, "молоко", 30, 100));
@@ -33,11 +35,14 @@ public class Main {
             dataBase.setCashierArrayList(dataBase.getCashierList());
             store.setCashierList(dataBase.getCashierList());
             //dataBase.buyProduct(444, 20);
+            //System.out.println(dataBase.getReceiptCount());
+
             dataBase.closeDB();
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
-        BarcodeInputWindow w = new BarcodeInputWindow();
+        ReceiptOutputWindow r = new ReceiptOutputWindow();
+        //BarcodeInputWindow w = new BarcodeInputWindow();
         System.out.println("*************************\n" +
                            "*    ООО Продуктовый    *\n" +
                            "*       г.Ангарск       *\n" +

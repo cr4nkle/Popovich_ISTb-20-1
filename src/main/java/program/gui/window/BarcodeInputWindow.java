@@ -19,4 +19,12 @@ public class BarcodeInputWindow extends JFrame {
         pack();
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
     }
+
+    public JTextField getInputField(){
+        return inputField;
+    }
+
+    public JButton getEnterButton() {
+        return enterButton;
+    }
 }

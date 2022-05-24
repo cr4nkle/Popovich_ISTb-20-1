@@ -1,5 +1,7 @@
 package main.java.program.gui;
 
+import program.gui.window.BarcodeInputWindow;
+import program.gui.window.ReceiptOutputWindow;
 import program.model.Product;
 import program.utility.constant.Constant;
 import program.utility.database.DataBase;
@@ -346,5 +348,13 @@ public class Controller {
 
     public void setDataBase(DataBase dataBase){
         this.dataBase = dataBase;
+    }
+
+    public void executeInputWindow(BarcodeInputWindow window){
+
+    }
+
+    public void executeOutputWindow(ReceiptOutputWindow window){
+
     }
 }
