@@ -46,7 +46,7 @@ public abstract class SqliteHelper {
         statement.close();
     }
 
-    public void updateProduct(int code, int quantity) throws SQLException {
+    public void updateProduct(int code, int quantity) throws SQLException {//не работает
         statement = connection.prepareStatement("INSERT INTO 'products_id' ('quantity') VALUES (?) WHERE 'products_id' = code");
         statement.setObject(1, quantity);
         statement.setObject(2, code);
@@ -123,14 +123,14 @@ public abstract class SqliteHelper {
 //        statement.close();
 //    }
 
-    public int getCashierID(String full_name) throws SQLException {
+    public int getCashierID(String full_name) throws SQLException {//выдаёт ошибку resultset closed
         statement = connection.prepareStatement("SELECT 'cashier_id' FROM 'cashiers' WHERE 'full_name' = ?;");
         statement.setObject(1, full_name);
         resSet = statement.executeQuery();
         return resSet.getInt("cashier_id");
     }
 
-    public  int getReceiptCount() throws SQLException {
+    public  int getReceiptCount() throws SQLException {//работает
         statement = connection.prepareStatement("SELECT COUNT(receipts_id) from 'receipts';");
         resSet = statement.executeQuery();
         return resSet.getInt("COUNT(receipts_id)");

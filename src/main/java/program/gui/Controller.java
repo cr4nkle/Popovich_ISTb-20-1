@@ -3,6 +3,7 @@ package main.java.program.gui;
 import program.gui.window.BarcodeInputWindow;
 import program.gui.window.ReceiptOutputWindow;
 import program.model.Product;
+import program.utility.CancelBuffer;
 import program.utility.constant.Constant;
 import program.utility.database.DataBase;
 import program.utility.encryption.Encrypt;
@@ -134,10 +135,12 @@ public class Controller {
                             flag = 0;
                             break;
                         case 6://отправка запроса на удаление продуктов из бд кнопка оплата
+                            CancelBuffer buffer = new CancelBuffer(updateQuantity(),totalPrice);
+                            //запускать метод генерации текста на чеке
                             System.out.println(getChange(Float.parseFloat(result)));//сдача
-                            //dataBase.payment();
-                            System.out.println(totalPrice);
-                            System.out.println(store.getId());
+
+                            System.out.println(totalPrice);//передавать чеку
+                            System.out.println(store.getId());//получать айди продавца
                             view.getInfoField().setText("");
                             showMessage();
                             updateQuantity();
@@ -145,7 +148,8 @@ public class Controller {
                             flag = 0;
                             store.deleteAllProduct();//проверка вдруг количество товара 0
                             view.getBasketTableModel().change();//показ чека и очищение таблицы отправка запросов в бд
-                            totalPrice = 0;//разобраться с запросом обновления
+                            totalPrice = 0;
+                            discountValue = 0;//разобраться с запросом обновления
                             break;
                     }
                 }catch (NumberFormatException ne) {
@@ -175,14 +179,15 @@ public class Controller {
 
     }
 
-    private void updateQuantity() throws Exception {
+    private int updateQuantity() throws Exception {
         int code;
-        int quantity;
+        int quantity = 0;
         for (int i = 0; i < store.getProductListSize(); i ++){
             code = store.getProductList().get(i).getCode();
             quantity = dataBase.searchProduct(code).getQuantity() - store.getProductList().get(i).getQuantity();
             dataBase.searchProduct(code).setQuantity(quantity);
         }
+        return quantity;
     }
 
     private void checkQuantity(int enterQuantity, Product product) throws Exception {
