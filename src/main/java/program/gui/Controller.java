@@ -5,15 +5,13 @@ import program.gui.window.ReceiptOutputWindow;
 import program.model.Product;
 import program.utility.CancelBuffer;
 import program.utility.constant.Constant;
-import program.utility.database.DataBase;
+import program.database.DataBase;
 import program.utility.encryption.Encrypt;
 import program.gui.window.AuthenticationWindow;
 import program.gui.window.View;
 import program.model.Store;
-import program.gui.tablemodel.BasketTableModel;
 
 import javax.swing.*;
-import javax.swing.table.TableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -26,6 +24,7 @@ public class Controller {
     private DataBase dataBase;
     private int discountValue = 0;
     private float totalPrice = 0;
+    private CancelBuffer buffer;
 
     public Controller(View view, Store store){
         this.view = view;
@@ -96,6 +95,16 @@ public class Controller {
             }
         });
 
+        view.getCancelButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {//не работает делать запрос на удаление записи в бд
+                store.setProductList(buffer.getBufferList());
+                view.getBasketTableModel().change();
+                flag = 3;
+                pressFlag = true;
+            }
+        });
+
         view.getEnterButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -105,10 +114,10 @@ public class Controller {
                         case 1://показ таблицы корзины с нужным кол-вом товара кнопка кол-во
                             //проверка количества продукта
                             int index = view.getTable().getSelectedRow();
-                            Product product = store.getProduct(index);//получили продукт из списка магазина
-                            checkQuantity(Integer.parseInt(result),product);
                             if (index == -1)
                                 throw new Exception("Строка не выбрана!!");
+                            Product product = store.getProduct(index);//получили продукт из списка магазина
+                            checkQuantity(Integer.parseInt(result),product);
                             product.setQuantity(Integer.parseInt(result));//задаём новое значение количеству//одна ссылка на объект
                             view.getBasketTableModel().change();//попросили модель таблицы обновиться
                             showMessage();
@@ -116,8 +125,14 @@ public class Controller {
                             flag = 0;
                             break;
                         case 2://штрих-код
+                            BarcodeInputWindow barcodeInputWindow = new BarcodeInputWindow();
+                            executeInputWindow(barcodeInputWindow);
+                            store.addProduct(dataBase.copyProduct(Integer.parseInt(result)));//передаём расшифрованный код
+                            view.getBasketTableModel().change();
+                            showMessage();
                             break;
                         case 3:
+
                             break;
                         case 4://поиск по введенному коду показ в таблицу продукта кнопка код
                             store.addProduct(dataBase.copyProduct(Integer.parseInt(result)));
@@ -135,12 +150,13 @@ public class Controller {
                             flag = 0;
                             break;
                         case 6://отправка запроса на удаление продуктов из бд кнопка оплата
-                            CancelBuffer buffer = new CancelBuffer(updateQuantity(),totalPrice);
+                             buffer = new CancelBuffer(store.getProductList());
                             //запускать метод генерации текста на чеке
                             System.out.println(getChange(Float.parseFloat(result)));//сдача
 
                             System.out.println(totalPrice);//передавать чеку
-                            System.out.println(store.getId());//получать айди продавца
+                            System.out.println();//получать айди продавца
+                            //dataBase.payment(store.getId(), (int) totalPrice);
                             view.getInfoField().setText("");
                             showMessage();
                             updateQuantity();
@@ -153,10 +169,12 @@ public class Controller {
                             break;
                     }
                 }catch (NumberFormatException ne) {
+                    view.getInfoField().setText("");
                     JOptionPane.showMessageDialog(view,
                             "Неверный формат ввода!!",
                             "Ошибка", JOptionPane.WARNING_MESSAGE, null);
                 }catch(Exception e){
+                    view.getInfoField().setText("");
                     JOptionPane.showMessageDialog(view,
                             e.getMessage(),
                             "Ошибка", JOptionPane.WARNING_MESSAGE, null);
@@ -299,11 +317,13 @@ public class Controller {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 boolean login = false;
+                String name = window.getLoginField().getText();
                 try {
-                    login = login(window.getLoginField().getText(), window.getPasswordField().getText());
+                    login = login(name, window.getPasswordField().getText());
                     if (login){
                         view.setVisible(true);
-                        view.getCashierField().setText("Кассир:" + window.getLoginField().getText() + " ");
+                        view.getCashierField().setText("Кассир:" + store.getCashier(name).getFullName() + " ");
+                        System.out.println(store.getCashier(name).getId());
                         window.dispose();
                     }else{
                         JOptionPane.showMessageDialog(view,
@@ -325,7 +345,7 @@ public class Controller {
         boolean checkFlag = false;
         if (store.getCashier(fullName).getPassword().equals(Encrypt.encrypt(password))){
             store.setId(store.getCashier(fullName).getId());
-            System.out.println(store.getCashier(fullName).getId());
+            System.out.println(store.getCashier(fullName).getFullName());
             checkFlag = true;
         }
         return checkFlag;
@@ -361,5 +381,9 @@ public class Controller {
 
     public void executeOutputWindow(ReceiptOutputWindow window){
 
+    }
+    private float countDiscountValue(){
+        float temp = totalPrice - (totalPrice * discountValue) / 100;
+        return temp;
     }
 }

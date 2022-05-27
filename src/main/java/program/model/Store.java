@@ -1,7 +1,5 @@
 package program.model;
 
-import program.utility.database.DataBase;
-
 import java.util.ArrayList;
 
 public class Store {

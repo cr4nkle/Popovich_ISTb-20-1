@@ -1,20 +1,17 @@
 package program.utility;
 
+import program.model.Product;
+
+import java.util.ArrayList;
+
 public class CancelBuffer {
-    private int quantity;
-    private float totalPrice;
+    private ArrayList<Product> bufferList;
 
-    public CancelBuffer(int quantity, float totalPrice){
-        this.quantity = quantity;
-        this.totalPrice = totalPrice;
+    public CancelBuffer(ArrayList list){
+        this.bufferList = list;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public ArrayList<Product> getBufferList() {
+        return bufferList;
     }
-
-    public float getTotalPrice() {
-        return totalPrice;
-    }
-
 }

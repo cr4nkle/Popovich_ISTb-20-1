@@ -10,15 +10,11 @@ public class Cashier {
     public Cashier(int id, String fullName, String password){// для бд
         this.id = id;
         this.fullName = fullName;
-        this.password = password;//сразу шифрует может быть лишним
-    }
-
-    public Cashier(String fullName, String password){
-        this.fullName = fullName;
-        this.password = password;//сразу шифрует может быть лишним
+        this.password = password;
     }
 
     public Cashier(Cashier cashier){
+        this.id = cashier.id;
         this.fullName = cashier.fullName;
         this.password = cashier.password;
     }

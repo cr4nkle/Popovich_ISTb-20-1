@@ -1,4 +1,4 @@
-package program.utility.database;
+package program.database;
 
 import program.model.Cashier;
 import program.model.Product;
