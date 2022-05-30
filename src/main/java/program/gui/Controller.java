@@ -150,17 +150,17 @@ public class Controller {
                             flag = 0;
                             break;
                         case 6://отправка запроса на удаление продуктов из бд кнопка оплата
-                             buffer = new CancelBuffer(store.getProductList());
+                            buffer = new CancelBuffer(store.getProductList());
                             //запускать метод генерации текста на чеке
                             System.out.println(getChange(Float.parseFloat(result)));//сдача
 
                             System.out.println(totalPrice);//передавать чеку
-                            System.out.println();//получать айди продавца
-                            //dataBase.payment(store.getId(), (int) totalPrice);
+                            System.out.println(store.getId());//получать айди продавца
+                            //dataBase.payment(store.getId(), (int) totalPrice);//
                             view.getInfoField().setText("");
                             showMessage();
-                            updateQuantity();
-                            System.out.println(dataBase.searchProduct(444).getQuantity());
+                            updateQuantity();//кол-во которое осталось
+                            new ReceiptOutputWindow();
                             flag = 0;
                             store.deleteAllProduct();//проверка вдруг количество товара 0
                             view.getBasketTableModel().change();//показ чека и очищение таблицы отправка запросов в бд
@@ -212,7 +212,7 @@ public class Controller {
         Product tempProduct = dataBase.searchProduct(product.getCode());
         int temp = tempProduct.getQuantity();
         if (enterQuantity == 0)
-            throw new Exception("Количество равняется нулю!!");
+            throw new Exception("Количество ровняется нулю!!");
         if (temp == 0)
             throw new Exception("Товар закончился на складе!!");
         if (enterQuantity >= temp)
@@ -323,7 +323,6 @@ public class Controller {
                     if (login){
                         view.setVisible(true);
                         view.getCashierField().setText("Кассир:" + store.getCashier(name).getFullName() + " ");
-                        System.out.println(store.getCashier(name).getId());
                         window.dispose();
                     }else{
                         JOptionPane.showMessageDialog(view,
@@ -345,7 +344,6 @@ public class Controller {
         boolean checkFlag = false;
         if (store.getCashier(fullName).getPassword().equals(Encrypt.encrypt(password))){
             store.setId(store.getCashier(fullName).getId());
-            System.out.println(store.getCashier(fullName).getFullName());
             checkFlag = true;
         }
         return checkFlag;

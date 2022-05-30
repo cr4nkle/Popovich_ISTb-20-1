@@ -46,17 +46,6 @@ public abstract class SqliteHelper {
         statement.close();
     }
 
-    public void updateProduct(int code, int quantity) throws SQLException {//не работает
-//        statement = connection.prepareStatement("INSERT INTO 'products' ('quantity') VALUES (?) WHERE 'products_id' = ?");
-//        statement.setObject(1, quantity);
-//        statement.setObject(2, code);
-        statement = connection.prepareStatement(" UPDATE 'products'  SET 'quantity' = ? WHERE 'product_id' = ?;");
-        statement.setObject(1, quantity);
-        statement.setObject(2, code);
-        statement.executeUpdate();
-//        statement.close();
-    }
-
     public ArrayList<Product> getProductList(){//подумать как сделать более универсально
         ArrayList<Product> allProductList = new ArrayList<>();
         try{
@@ -105,7 +94,7 @@ public abstract class SqliteHelper {
         statement.setObject(4, product.getQuantity());
         statement.execute();
         statement.close();
-    }
+    }//для 6 лабы
 
     public void addCashier(Cashier cashier) throws SQLException{
         statement = connection.prepareStatement("INSERT INTO 'cashiers'('full_name', 'password') VALUES (?,?);");
@@ -113,21 +102,14 @@ public abstract class SqliteHelper {
         statement.setObject(2, Encrypt.encrypt(cashier.getPassword()));
         statement.execute();
         statement.close();
-    }
+    }//для 6 лабы
 
-    public void payment(int id, int totalPrice) throws SQLException {
+    public void payment(int id, int totalPrice) throws SQLException {//работает исправно
         statement = connection.prepareStatement("INSERT INTO 'receipts'('cashier_id', 'total_price') VALUES (?,?);");
         statement.setObject(1, id);
         statement.setObject(2, totalPrice);
         statement.execute();
         statement.close();
-    }
-
-    public int getCashierID(String full_name) throws SQLException {//выдаёт ошибку resultset closed
-        statement = this.connection.prepareStatement("SELECT 'cashier_id' FROM 'cashiers' WHERE 'full_name' = ?;");
-        statement.setObject(1, full_name);
-        resSet = statement.executeQuery();
-        return resSet.getInt("cashier_id");
     }
 
     public  int getReceiptCount() throws SQLException {//работает
@@ -150,6 +132,12 @@ public abstract class SqliteHelper {
 //        }
     }
 
+    public void updateProduct(int id, int quantity) throws SQLException {
+        statement = connection.prepareStatement("UPDATE products SET quantity = ? WHERE product_id = ?");
+        statement.setObject(1, quantity);
+        statement.setObject(2, id);
+        statement.executeUpdate();
+    }
 
     //Class<?>
     public abstract Product searchProduct(int code) throws Exception;

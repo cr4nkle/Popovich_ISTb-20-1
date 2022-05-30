@@ -7,8 +7,13 @@ public class Cashier {
     private String fullName;
     private String password;
 
-    public Cashier(int id, String fullName, String password){// для бд
+    public Cashier(int id, String fullName, String password){
         this.id = id;
+        this.fullName = fullName;
+        this.password = password;
+    }
+
+    public Cashier(String fullName, String password){// для бд
         this.fullName = fullName;
         this.password = password;
     }

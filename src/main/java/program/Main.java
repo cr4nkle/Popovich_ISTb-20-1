@@ -6,6 +6,7 @@ import program.gui.window.AuthenticationWindow;
 import main.java.program.gui.Controller;
 import program.gui.window.View;
 import program.model.Cashier;
+import program.model.Product;
 import program.model.Store;
 
 public class Main {
@@ -21,28 +22,24 @@ public class Main {
         controller.executeAuthenticationWindow(authenticationWindow);
         try {
             dataBase.initDB();
-
-//            dataBase.createDB();
+//          dataBase.createDB();
 //            dataBase.addProduct(new Product(444, "хлеб", 20, 100));
-//            dataBase.addProduct(new Product(445, "молоко", 30, 100));
-//            dataBase.addProduct(new Product(446, "кефир", 40, 100));
+//            dataBase.addCashier(new Cashier("Михаил", "1234"));
+//            controller.setDataBase(dataBase);
+            //dataBase.updateProduct(444, 160);
             //dataBase.deleteProduct(450);
-            //dataBase.updateProduct(451, 20);
-            //dataBase.getCashierID("Сергей");
-            //dataBase.addCashier(new Cashier("Сергей", "админ"));
+            //dataBase.payment(1,10);
             controller.setDataBase(dataBase);
             dataBase.setProductArrayList(dataBase.getProductList());
             dataBase.setCashierArrayList(dataBase.getCashierList());
             store.setCashierList(dataBase.getCashierList());
-            //dataBase.buyProduct(444, 20);
-            //System.out.println(dataBase.getReceiptCount());
+            System.out.println("Номер чека" + " " + dataBase.getReceiptCount());
 
             dataBase.closeDB();
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
-        Cashier c = new Cashier(1,"ggggg", "kjjkj");
-        System.out.println(c.getId());
+
         System.out.println("*************************\n" +
                            "*    ООО Продуктовый    *\n" +
                            "*       г.Ангарск       *\n" +

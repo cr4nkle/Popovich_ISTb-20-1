@@ -256,6 +256,7 @@ public class View extends JFrame {
 
         table = new JTable();
         basketTableModel = new BasketTableModel();
+
         table.getTableHeader().setFont(new Font("TimesRoman", Font.PLAIN, 20));
         table.setFont(new Font("TimesRoman", Font.PLAIN, 15));
 
@@ -264,8 +265,8 @@ public class View extends JFrame {
 
         add(scrollPane, BorderLayout.CENTER);
         pack();
-        //setVisible(false);
-        setVisible(true);
+        setVisible(false);
+        //setVisible(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
