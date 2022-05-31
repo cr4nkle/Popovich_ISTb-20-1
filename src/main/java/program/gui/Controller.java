@@ -95,7 +95,7 @@ public class Controller {
 
         view.getCancelButton().addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent actionEvent) {//не работает делать запрос на удаление записи в бд
+            public void actionPerformed(ActionEvent actionEvent) {
                 int index = view.getTable().getSelectedRow();
                 try {
                     if (index == -1)
@@ -105,6 +105,22 @@ public class Controller {
                     flag = 3;
                     pressFlag = true;
                 } catch (Exception e) {
+                    JOptionPane.showMessageDialog(view,
+                            e.getMessage(),
+                            "Ошибка", JOptionPane.WARNING_MESSAGE, null);
+                }
+
+            }
+        });
+
+        view.getEndButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                try{
+
+                    dataBase.closeDB();
+                    flag = 0;
+                }catch (Exception e){
                     JOptionPane.showMessageDialog(view,
                             e.getMessage(),
                             "Ошибка", JOptionPane.WARNING_MESSAGE, null);

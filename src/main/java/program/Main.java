@@ -17,7 +17,7 @@ public class Main {
         controller.executeAuthenticationWindow(authenticationWindow);
 
 
-
+        System.out.println(Encrypt.encrypt("0000"));
         System.out.println("*************************\n" +
                            "*    ООО Продуктовый    *\n" +
                            "*       г.Ангарск       *\n" +

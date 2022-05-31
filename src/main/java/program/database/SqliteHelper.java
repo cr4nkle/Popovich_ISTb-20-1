@@ -46,27 +46,6 @@ public abstract class SqliteHelper {
     public void closeDB() throws SQLException{
         connection.close();
     }
-    //либо заменить продукт айди либо сделать уникальность
-    public void createDB() throws SQLException, Exception{
-        statement = connection.prepareStatement("CREATE TABLE if not exists 'cashiers' " +
-                "('cashier_id' INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "'full_name' text, " +
-                "'password' text);");
-        statement.execute();
-        statement = connection.prepareStatement("CREATE TABLE if not exists 'products' "
-                + "('product_id' INTEGER PRIMARY KEY UNIQUE CHECK('product_id' >0), "
-                + "'product_name' text, "
-                + "'price' INT, "
-                + "'quantity' INT);");
-        statement.execute();
-        statement = connection.prepareStatement("CREATE TABLE if not exists 'receipts' " +
-                "('receipts_id' INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "'cashier_id' INT NULL , " +
-                "'total_price' INT, " +
-                "FOREIGN KEY (cashier_id) REFERENCES cashiers(cashier_id));");
-        statement.execute();
-        statement.close();
-    }
 
     public ArrayList<Product> getProductList(){
         ArrayList<Product> allProductList = new ArrayList<>();
@@ -103,29 +82,6 @@ public abstract class SqliteHelper {
 
         return allCashierList;
     }
-
-    public void addProduct(Product product) throws SQLException{
-        statement = connection.prepareStatement("INSERT INTO 'products' " +
-                "('product_id', " +
-                "'product_name', " +
-                "'price', " +
-                "'quantity') "
-                + "VALUES (?,?,?,?);");
-        statement.setObject(1, product.getCode());
-        statement.setObject(2, product.getName());
-        statement.setObject(3, product.getPrice());
-        statement.setObject(4, product.getQuantity());
-        statement.execute();
-        statement.close();
-    }//для 6 лабы
-
-    public void addCashier(Cashier cashier) throws SQLException{
-        statement = connection.prepareStatement("INSERT INTO 'cashiers'('full_name', 'password') VALUES (?,?);");
-        statement.setObject(1, cashier.getName());
-        statement.setObject(2, Encrypt.encrypt(cashier.getPassword()));
-        statement.execute();
-        statement.close();
-    }//для 6 лабы
 
     public void payment(int id, int totalPrice) throws SQLException {//работает исправно
         statement = connection.prepareStatement("INSERT INTO 'receipts'('cashier_id', 'total_price') VALUES (?,?);");
