@@ -49,10 +49,10 @@ public class DataRepository extends SqliteHelper{//класс который р�
     }
 
     @Override
-    public Cashier searchCashier(String name) {
+    public Cashier searchCashierByLogin(String login) {
         Cashier cashier = null;
         for (int i = 0; i < allCashierList.size(); i++) {
-            if(allCashierList.get(i).getFullName().equalsIgnoreCase(name)){
+            if(allCashierList.get(i).getLogin().equals(login)){
                 cashier = allCashierList.get(i);
             }
         }

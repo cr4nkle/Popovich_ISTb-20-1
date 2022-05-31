@@ -1,31 +1,32 @@
 package program.model;
 
-import program.utility.encryption.Encrypt;
-
 public class Cashier {
-    public int id;
-    private String fullName;
+    private int id;
+    private String name;
+    private String login;
     private String password;
 
-    public Cashier(int id, String fullName, String password){
+    public Cashier(int id, String name, String login, String password){
         this.id = id;
-        this.fullName = fullName;
+        this.name = name;
+        this.login = login;
         this.password = password;
     }
 
     public Cashier(String fullName, String password){// для бд
-        this.fullName = fullName;
+        this.name = fullName;
         this.password = password;
     }
 
     public Cashier(Cashier cashier){
         this.id = cashier.id;
-        this.fullName = cashier.fullName;
+        this.name = cashier.name;
+        this.login = cashier.login;
         this.password = cashier.password;
     }
 
-    public String getFullName(){
-        return this.fullName;
+    public String getName(){
+        return this.name;
     }
 
     public String getPassword() {
@@ -34,5 +35,9 @@ public class Cashier {
 
     public int getId() {
         return id;
+    }
+
+    public String getLogin() {
+        return login;
     }
 }

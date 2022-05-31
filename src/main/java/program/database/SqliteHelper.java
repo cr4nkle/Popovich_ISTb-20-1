@@ -71,13 +71,13 @@ public abstract class SqliteHelper {
     public ArrayList<Product> getProductList(){
         ArrayList<Product> allProductList = new ArrayList<>();
         try{
-            statement = connection.prepareStatement("SELECT * FROM products");
+            statement = connection.prepareStatement("SELECT * FROM Products");
             resSet = statement.executeQuery();
             while (resSet.next()) {
                 allProductList.add(new Product(resSet.getInt("product_id"),
                         resSet.getString("product_name"),
-                        resSet.getInt("price"),
-                        resSet.getInt("quantity")));
+                        resSet.getInt("product_price"),
+                        0));
             }
         }catch (Exception e){
             System.out.println(e.getMessage());
@@ -89,11 +89,12 @@ public abstract class SqliteHelper {
     public ArrayList<Cashier> getCashierList(){
         ArrayList<Cashier> allCashierList = new ArrayList<>();
         try{
-            statement = connection.prepareStatement("SELECT * FROM cashiers");
+            statement = connection.prepareStatement("SELECT * FROM Cashiers ");
             resSet = statement.executeQuery();
             while (resSet.next()) {
                 allCashierList.add(new Cashier(resSet.getInt("cashier_id"),
-                        resSet.getString("full_name"),
+                        resSet.getString("cashier_name"),
+                        resSet.getString("login"),
                         resSet.getString("password")));
             }
         }catch (Exception e){
@@ -120,7 +121,7 @@ public abstract class SqliteHelper {
 
     public void addCashier(Cashier cashier) throws SQLException{
         statement = connection.prepareStatement("INSERT INTO 'cashiers'('full_name', 'password') VALUES (?,?);");
-        statement.setObject(1, cashier.getFullName());
+        statement.setObject(1, cashier.getName());
         statement.setObject(2, Encrypt.encrypt(cashier.getPassword()));
         statement.execute();
         statement.close();
@@ -163,7 +164,7 @@ public abstract class SqliteHelper {
 
     //Class<?>
     public abstract Product searchProduct(int code) throws Exception;
-    public abstract Cashier searchCashier(String name);
+    public abstract Cashier searchCashierByLogin(String login);
     public abstract void setProductArrayList(ArrayList<Product> list);
     public abstract void setCashierArrayList(ArrayList<Cashier> list);
 }

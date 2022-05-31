@@ -265,7 +265,7 @@ public class View extends JFrame {
 
         add(scrollPane, BorderLayout.CENTER);
         pack();
-        setVisible(false);
+        setVisible(true);
         //setVisible(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }

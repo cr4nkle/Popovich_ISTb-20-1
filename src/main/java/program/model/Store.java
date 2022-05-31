@@ -6,7 +6,6 @@ public class Store {
     private ArrayList<Product> basketList = new ArrayList<>();//список для хранения выбранного товара
     private Cashier cashier;
     private ArrayList<Cashier> cashierList = new ArrayList<>();
-    private int id;//убрать
     private static Store INSTANCE;
 
     private Store(){
@@ -23,7 +22,7 @@ public class Store {
     public Cashier getCashier(String fullName){
         Cashier cashier = null;
         for (int i = 0; i < cashierList.size(); i++) {
-            if(cashierList.get(i).getFullName().equalsIgnoreCase(fullName)){
+            if(cashierList.get(i).getName().equalsIgnoreCase(fullName)){
                 cashier = new Cashier(cashierList.get(i));
             }
         }
@@ -67,11 +66,11 @@ public class Store {
         this.basketList.add(product);
     }
 
-    public int getId() {
-        return id;
+    public Cashier getCashier() {
+        return cashier;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setCashier(Cashier cashier) {
+        this.cashier = cashier;
     }
 }

@@ -2,6 +2,7 @@ package main.java.program.gui;
 
 import program.gui.window.BarcodeInputWindow;
 import program.gui.window.ReceiptOutputWindow;
+import program.model.Cashier;
 import program.model.Product;
 import program.utility.CancelBuffer;
 import program.utility.constant.Constant;
@@ -20,15 +21,14 @@ public class Controller {
     private boolean pressFlag = false;//флаг для понимания нажата ли кнопка
     private String infoText = "";
     private View view;
-    private Store store;//добавить поле с базой данных
+    private Store store = Store.getInstance();//добавить поле с базой данных
     private DataRepository dataBase = DataRepository.getInstance();
     private int discountValue = 0;
     private float totalPrice = 0;
     private CancelBuffer buffer;
 
-    public Controller(View view, Store store){
-        this.view = view;
-        this.store = store;
+    public Controller(){
+
     }
 
     private void demonstration(String flag){
@@ -155,7 +155,7 @@ public class Controller {
                             System.out.println(getChange(Float.parseFloat(result)));//сдача
 
                             System.out.println(totalPrice);//передавать чеку
-                            System.out.println(store.getId());//получать айди продавца
+                            //получать айди продавца
                             //dataBase.payment(store.getId(), (int) totalPrice);//
                             view.getInfoField().setText("");
                             showMessage();
@@ -323,8 +323,9 @@ public class Controller {
                 try {
                     login = login(name, window.getPasswordField().getText());
                     if (login){
-                        view.setVisible(true);
-                        view.getCashierField().setText("Кассир:" + store.getCashier(name).getFullName() + " ");
+                        setView(new View());
+                        execute();
+                        view.getCashierField().setText("Кассир:" + dataBase.searchCashierByLogin(name).getName() + " ");
                         window.dispose();
                     }else{
                         JOptionPane.showMessageDialog(view,
@@ -342,10 +343,15 @@ public class Controller {
         });
     }
 
-    private boolean login(String fullName, String password) throws Exception{
+    private void setView(View view){
+        this.view =view;
+    }
+
+    private boolean login(String login, String password) throws Exception{
         boolean checkFlag = false;
-        if (store.getCashier(fullName).getPassword().equals(Encrypt.encrypt(password))){
-            store.setId(store.getCashier(fullName).getId());
+        Cashier tempCashier = dataBase.searchCashierByLogin(login);
+        if (tempCashier.getPassword().equals(Encrypt.encrypt(password))){
+            store.setCashier(tempCashier);
             checkFlag = true;
         }
         return checkFlag;
@@ -369,10 +375,6 @@ public class Controller {
             throw new Exception("Введено недостаточное кол-во денежных средств!!");
         double res = enterAmount - totalPrice;
         return res;
-    }
-
-    public void setDataBase(DataRepository dataBase){
-        this.dataBase = dataBase;
     }
 
     public void executeInputWindow(BarcodeInputWindow window){
