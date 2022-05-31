@@ -21,7 +21,7 @@ public class Controller {
     private String infoText = "";
     private View view;
     private Store store;//добавить поле с базой данных
-    private DataRepository dataBase;
+    private DataRepository dataBase = DataRepository.getInstance();
     private int discountValue = 0;
     private float totalPrice = 0;
     private CancelBuffer buffer;

@@ -10,11 +10,12 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 	// write your code here
-        View view = new View();
-        Store store = new Store();
         DataRepository dataBase = DataRepository.getInstance();
+        AuthenticationWindow authenticationWindow = new AuthenticationWindow();
+        View view = new View();
+        Store store = Store.getInstance();
 
-        AuthenticationWindow authenticationWindow = new AuthenticationWindow(view);
+
         Controller controller = new Controller(view, store);
         controller.execute();
         controller.executeAuthenticationWindow(authenticationWindow);
@@ -27,7 +28,7 @@ public class Main {
 //            //dataBase.updateProduct(444, 160);
 //            //dataBase.deleteProduct(450);
 //            //dataBase.payment(1,10);
-            controller.setDataBase(dataBase);
+ //           controller.setDataBase(dataBase);
 //            dataBase.setProductArrayList(dataBase.getProductList());
 //            dataBase.setCashierArrayList(dataBase.getCashierList());
         store.setCashierList(dataBase.getCashierList());

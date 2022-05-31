@@ -7,6 +7,18 @@ public class Store {
     private Cashier cashier;
     private ArrayList<Cashier> cashierList = new ArrayList<>();
     private int id;//убрать
+    private static Store INSTANCE;
+
+    private Store(){
+
+    }
+
+    public static synchronized Store getInstance(){
+        if (INSTANCE == null){
+            INSTANCE = new Store();
+        }
+        return INSTANCE;
+    }
 
     public Cashier getCashier(String fullName){
         Cashier cashier = null;

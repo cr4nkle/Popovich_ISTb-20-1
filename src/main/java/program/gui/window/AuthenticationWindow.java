@@ -13,14 +13,13 @@ public class AuthenticationWindow extends JFrame {
     private JButton authenticationButton;
     private Container container;
 
-    public AuthenticationWindow(View view){
+    public AuthenticationWindow(){
         setTitle("Аутентификация");
         Font font = new Font("TimesRoman", Font.PLAIN, 25);
-        loginLabel = new JLabel("ФИО");
-        passwordLabel = new JLabel("Пароль");
+        loginLabel = new JLabel("Логин:");
+        passwordLabel = new JLabel("Пароль:");
         authenticationButton = new JButton("Войти");
         authenticationButton.setFont(font);
-        //authenticationButton.setSize(new Dimension(50, 50));
         loginLabel.setFont(font);
         passwordLabel.setFont(font);
         loginField = new JTextField();
@@ -59,10 +58,9 @@ public class AuthenticationWindow extends JFrame {
 
         add(container, BorderLayout.CENTER);
         add(authenticationButton, BorderLayout.SOUTH);
+
         pack();
         setVisible(true);
-
-        setLocationRelativeTo(view);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
