@@ -13,12 +13,34 @@ public abstract class SqliteHelper {
     private PreparedStatement statement;
     private ResultSet resSet;
 
-    public void initDB() throws SQLException{
-        connection = DriverManager.getConnection(Constant.URL);
-        if(connection != null){
-            DatabaseMetaData metaData = connection.getMetaData();
-            System.out.println(metaData.getDriverName());
+    public void initDB(){
+        try{
+            connection = DriverManager.getConnection(Constant.URL);
+            if(connection != null){
+                DatabaseMetaData metaData = connection.getMetaData();
+                System.out.println(metaData.getDriverName());
+            }
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
         }
+    }
+
+    public void create() throws SQLException {
+        statement = connection.prepareStatement("CREATE TABLE Test (" +
+                "id INTEGER NOT NULL, " +
+                "t TEXT NOT NULL, " +
+                "time TIME DEFAULT (time('now', 'localtime')) NOT NULL, " +
+                "PRIMARY KEY(id AUTOINCREMENT)" +
+                ");");
+        statement.execute();
+        statement.close();
+    }
+
+    public void add(String t) throws SQLException {
+        statement = connection.prepareStatement("INSERT INTO Test (t) VALUES (?)");
+        statement.setObject(1, t);
+        statement.executeUpdate();
+        statement.close();
     }
 
     public void closeDB() throws SQLException{
@@ -46,7 +68,7 @@ public abstract class SqliteHelper {
         statement.close();
     }
 
-    public ArrayList<Product> getProductList(){//подумать как сделать более универсально
+    public ArrayList<Product> getProductList(){
         ArrayList<Product> allProductList = new ArrayList<>();
         try{
             statement = connection.prepareStatement("SELECT * FROM products");

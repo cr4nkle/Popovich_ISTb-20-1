@@ -3,9 +3,10 @@ package program.model;
 import java.util.ArrayList;
 
 public class Store {
-    private ArrayList<Product> productList = new ArrayList<>();//список для хранения выбранного товара
+    private ArrayList<Product> basketList = new ArrayList<>();//список для хранения выбранного товара
+    private Cashier cashier;
     private ArrayList<Cashier> cashierList = new ArrayList<>();
-    private int id;
+    private int id;//убрать
 
     public Cashier getCashier(String fullName){
         Cashier cashier = null;
@@ -17,32 +18,32 @@ public class Store {
         return cashier;
     }
 
-    public ArrayList<Product> getProductList() {
-        return productList;
+    public ArrayList<Product> getBasketList() {
+        return basketList;
     }
 
     public int getProductListSize(){
-        return this.productList.size();
+        return this.basketList.size();
     }
 
     public Product getProduct(int index){
-        return this.productList.get(index);
+        return this.basketList.get(index);
     }
 
     public void deleteAllProduct(){
-        this.productList.clear();
+        this.basketList.clear();
     }
 
     public void deleteProduct(int code){
-        for (int i = 0; i < this.productList.size(); i++){
-            if (this.productList.get(i).getCode() == code){
-                this.productList.remove(i);
+        for (int i = 0; i < this.basketList.size(); i++){
+            if (this.basketList.get(i).getCode() == code){
+                this.basketList.remove(i);
             }
         }
     }
 
-    public void setProductList(ArrayList<Product> productList) {
-        this.productList = productList;
+    public void setBasketList(ArrayList<Product> basketList) {
+        this.basketList = basketList;
     }
 
     public void setCashierList(ArrayList<Cashier> cashierList) {
@@ -51,7 +52,7 @@ public class Store {
 
     public void addProduct(Product product){
         product.setQuantity(0);
-        this.productList.add(product);
+        this.basketList.add(product);
     }
 
     public int getId() {

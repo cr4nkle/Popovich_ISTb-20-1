@@ -1,12 +1,9 @@
 package program;
 
-import program.gui.window.ReceiptOutputWindow;
-import program.database.DataBase;
+import program.database.DataRepository;
 import program.gui.window.AuthenticationWindow;
 import main.java.program.gui.Controller;
 import program.gui.window.View;
-import program.model.Cashier;
-import program.model.Product;
 import program.model.Store;
 
 public class Main {
@@ -15,31 +12,43 @@ public class Main {
 	// write your code here
         View view = new View();
         Store store = new Store();
-        DataBase dataBase = new DataBase();
+        DataRepository dataBase = DataRepository.getInstance();
+
         AuthenticationWindow authenticationWindow = new AuthenticationWindow(view);
         Controller controller = new Controller(view, store);
         controller.execute();
         controller.executeAuthenticationWindow(authenticationWindow);
-        try {
-            dataBase.initDB();
-//          dataBase.createDB();
-//            dataBase.addProduct(new Product(444, "хлеб", 20, 100));
-//            dataBase.addCashier(new Cashier("Михаил", "1234"));
-//            controller.setDataBase(dataBase);
-            //dataBase.updateProduct(444, 160);
-            //dataBase.deleteProduct(450);
-            //dataBase.payment(1,10);
+       try {
+           //dataBase.initDB();
+////          dataBase.createDB();
+////            dataBase.addProduct(new Product(444, "хлеб", 20, 100));
+////            dataBase.addCashier(new Cashier("Михаил", "1234"));
+////            controller.setDataBase(dataBase);
+//            //dataBase.updateProduct(444, 160);
+//            //dataBase.deleteProduct(450);
+//            //dataBase.payment(1,10);
             controller.setDataBase(dataBase);
-            dataBase.setProductArrayList(dataBase.getProductList());
-            dataBase.setCashierArrayList(dataBase.getCashierList());
-            store.setCashierList(dataBase.getCashierList());
-            System.out.println("Номер чека" + " " + dataBase.getReceiptCount());
-
-            dataBase.closeDB();
+//            dataBase.setProductArrayList(dataBase.getProductList());
+//            dataBase.setCashierArrayList(dataBase.getCashierList());
+        store.setCashierList(dataBase.getCashierList());
+//            System.out.println("Номер чека" + " " + dataBase.getReceiptCount());
+//
+           dataBase.closeDB();
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
 
+//        try{
+//            dataBase.initDB();
+//            //dataBase.create();
+//            for (int i = 0; i < 10; i++){
+//                dataBase.add("m");
+//            }
+//            dataBase.closeDB();
+//
+//        }catch(Exception e){
+//            System.out.println(e.getMessage());
+//        }
         System.out.println("*************************\n" +
                            "*    ООО Продуктовый    *\n" +
                            "*       г.Ангарск       *\n" +

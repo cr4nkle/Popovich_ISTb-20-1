@@ -5,7 +5,7 @@ import program.gui.window.ReceiptOutputWindow;
 import program.model.Product;
 import program.utility.CancelBuffer;
 import program.utility.constant.Constant;
-import program.database.DataBase;
+import program.database.DataRepository;
 import program.utility.encryption.Encrypt;
 import program.gui.window.AuthenticationWindow;
 import program.gui.window.View;
@@ -21,7 +21,7 @@ public class Controller {
     private String infoText = "";
     private View view;
     private Store store;//добавить поле с базой данных
-    private DataBase dataBase;
+    private DataRepository dataBase;
     private int discountValue = 0;
     private float totalPrice = 0;
     private CancelBuffer buffer;
@@ -98,7 +98,7 @@ public class Controller {
         view.getCancelButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {//не работает делать запрос на удаление записи в бд
-                store.setProductList(buffer.getBufferList());
+                store.setBasketList(buffer.getBufferList());
                 view.getBasketTableModel().change();
                 flag = 3;
                 pressFlag = true;
@@ -150,7 +150,7 @@ public class Controller {
                             flag = 0;
                             break;
                         case 6://отправка запроса на удаление продуктов из бд кнопка оплата
-                            buffer = new CancelBuffer(store.getProductList());
+                            buffer = new CancelBuffer(store.getBasketList());
                             //запускать метод генерации текста на чеке
                             System.out.println(getChange(Float.parseFloat(result)));//сдача
 
@@ -173,6 +173,8 @@ public class Controller {
                     JOptionPane.showMessageDialog(view,
                             "Неверный формат ввода!!",
                             "Ошибка", JOptionPane.WARNING_MESSAGE, null);
+                }catch (NullPointerException e){
+                    System.out.println(e.getMessage());
                 }catch(Exception e){
                     view.getInfoField().setText("");
                     JOptionPane.showMessageDialog(view,
@@ -201,8 +203,8 @@ public class Controller {
         int code;
         int quantity = 0;
         for (int i = 0; i < store.getProductListSize(); i ++){
-            code = store.getProductList().get(i).getCode();
-            quantity = dataBase.searchProduct(code).getQuantity() - store.getProductList().get(i).getQuantity();
+            code = store.getBasketList().get(i).getCode();
+            quantity = dataBase.searchProduct(code).getQuantity() - store.getBasketList().get(i).getQuantity();
             dataBase.searchProduct(code).setQuantity(quantity);
         }
         return quantity;
@@ -353,7 +355,7 @@ public class Controller {
         float temp = 0;
         int price = 0;
         int quantity = 0;
-        for (Product p : store.getProductList()) {
+        for (Product p : store.getBasketList()) {
             price = p.getPrice();
             quantity = p.getQuantity();
             temp += quantity * price;
@@ -369,7 +371,7 @@ public class Controller {
         return res;
     }
 
-    public void setDataBase(DataBase dataBase){
+    public void setDataBase(DataRepository dataBase){
         this.dataBase = dataBase;
     }
 

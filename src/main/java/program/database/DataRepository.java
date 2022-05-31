@@ -2,12 +2,26 @@ package program.database;
 
 import program.model.Cashier;
 import program.model.Product;
-
 import java.util.ArrayList;
+
 //добавить обработку исключений
-public class DataBase extends SqliteHelper{//класс который реализует абстрактный
+public class DataRepository extends SqliteHelper{//класс который реализует абстрактный
     private ArrayList<Product> allProductList = new ArrayList<>();
     private ArrayList<Cashier> allCashierList = new ArrayList<>();
+    private static DataRepository INSTANCE;
+
+    private DataRepository(){
+        initDB();
+        this.allProductList = getProductList();
+        this.allCashierList = getCashierList();
+    }
+
+    public static synchronized DataRepository getInstance(){
+        if (INSTANCE == null){
+            INSTANCE = new DataRepository();
+        }
+        return INSTANCE;
+    }
 
     @Override
     public Product searchProduct(int code) throws Exception {//приравнивает ссылки
