@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Store {
     private ArrayList<Product> basketList = new ArrayList<>();//список для хранения выбранного товара
     private Cashier cashier;
-    private ArrayList<Cashier> cashierList = new ArrayList<>();
     private static Store INSTANCE;
 
     private Store(){
@@ -17,16 +16,6 @@ public class Store {
             INSTANCE = new Store();
         }
         return INSTANCE;
-    }
-
-    public Cashier getCashier(String fullName){
-        Cashier cashier = null;
-        for (int i = 0; i < cashierList.size(); i++) {
-            if(cashierList.get(i).getName().equalsIgnoreCase(fullName)){
-                cashier = new Cashier(cashierList.get(i));
-            }
-        }
-        return cashier;
     }
 
     public ArrayList<Product> getBasketList() {
@@ -55,10 +44,6 @@ public class Store {
 
     public void setBasketList(ArrayList<Product> basketList) {
         this.basketList = basketList;
-    }
-
-    public void setCashierList(ArrayList<Cashier> cashierList) {
-        this.cashierList = cashierList;
     }
 
     public void addProduct(Product product){

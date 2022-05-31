@@ -4,7 +4,7 @@ import program.model.Product;
 import program.model.Store;
 
 public class BasketTableModel extends DataModel {
-    private Store store;
+    private Store store = Store.getInstance();
 
     @Override
     public Object getValueAt(int i, int i1) {
@@ -42,9 +42,5 @@ public class BasketTableModel extends DataModel {
 
     public void change(){
         fireTableDataChanged();
-    }
-
-    public void setStore(Store store){
-        this.store = store;
     }
 }

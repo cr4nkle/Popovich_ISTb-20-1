@@ -3,15 +3,11 @@ package program.gui.window;
 import program.gui.tablemodel.BasketTableModel;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class View extends JFrame {
-
     private JButton button1;
     private JButton button2;
     private JButton button3;
@@ -46,7 +42,6 @@ public class View extends JFrame {
     public View(){
         Dimension firstDimension = new Dimension(100, 100);
         Dimension secondDimension = new Dimension(200, 100);
-        Dimension thirdDimension = new Dimension(400, 200);
 
         Font font = new Font("TimesRoman", Font.PLAIN, 35);
 
@@ -66,7 +61,7 @@ public class View extends JFrame {
         topConstraints.weighty = 1;
         topConstraints.gridy   = 0  ;
 
-        cashierField = new JLabel("Кассир:");
+        cashierField = new JLabel("Кассир: ");
         cashierField.setFont(font);
         topConstraints.gridwidth = 4;
         topConstraints.gridx = 0;
@@ -77,7 +72,7 @@ public class View extends JFrame {
         Date date = new Date();
         SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd.MM.yyyy");
 
-        dateField = new JLabel(formatForDateNow.format(date));
+        dateField = new JLabel("Дата: " + formatForDateNow.format(date));
         dateField.setFont(font);
         topConstraints.gridx = 4;
         topConstraints.gridy = 0;
@@ -110,7 +105,7 @@ public class View extends JFrame {
         constraints.gridy = 0;
         gridBagContainer.add(button3,constraints);
 
-        cancelButton = new JButton("<html><center>Отмена<p>чека</center></html>");
+        cancelButton = new JButton("<html><center>Отмена<p>позиции</center></html>");
         cancelButton.setFont(font);
         cancelButton.setPreferredSize(secondDimension);
         constraints.gridx = 0;
@@ -194,12 +189,12 @@ public class View extends JFrame {
         constraints.gridy = 2;
         gridBagContainer.add(button9,constraints);
 
-        exitButton = new JButton("Ввод");
-        exitButton.setFont(font);
-        exitButton.setPreferredSize(secondDimension);
+        payButton = new JButton("Оплата");
+        payButton.setFont(font);
+        payButton.setPreferredSize(secondDimension);
         constraints.gridx = 2;
         constraints.gridy = 3;
-        gridBagContainer.add(exitButton,constraints);
+        gridBagContainer.add(payButton,constraints);
 
         endButton = new JButton("<html><center>Закрыть<p>смену</center></html>");
         endButton.setFont(font);
@@ -243,14 +238,14 @@ public class View extends JFrame {
         constraints.gridy = 0;
         gridBagContainer.add(infoField,constraints);
 
-        payButton = new JButton("Оплата");
-        payButton.setFont(new Font("TimesRoman", Font.PLAIN, 70));
-        payButton.setPreferredSize(secondDimension);
+        exitButton = new JButton("Ввод");
+        exitButton.setFont(new Font("TimesRoman", Font.PLAIN, 70));
+        exitButton.setPreferredSize(secondDimension);
         constraints.gridwidth = 2;
         constraints.gridheight = 2;
         constraints.gridx = 0;
         constraints.gridy = 2;
-        gridBagContainer.add(payButton,constraints);
+        gridBagContainer.add(exitButton,constraints);
 
         add(gridBagContainer, BorderLayout.SOUTH);
 
@@ -258,7 +253,8 @@ public class View extends JFrame {
         basketTableModel = new BasketTableModel();
 
         table.getTableHeader().setFont(new Font("TimesRoman", Font.PLAIN, 20));
-        table.setFont(new Font("TimesRoman", Font.PLAIN, 15));
+        table.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+        table.setRowHeight(30);
 
         scrollPane = new JScrollPane(table);
         scrollPane.setPreferredSize(new Dimension(1112,406));
@@ -266,7 +262,7 @@ public class View extends JFrame {
         add(scrollPane, BorderLayout.CENTER);
         pack();
         setVisible(true);
-        //setVisible(true);
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 

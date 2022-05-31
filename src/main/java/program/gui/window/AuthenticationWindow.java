@@ -61,6 +61,7 @@ public class AuthenticationWindow extends JFrame {
 
         pack();
         setVisible(true);
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 

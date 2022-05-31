@@ -41,7 +41,6 @@ public class Controller {
     }
     public void execute(){
         press();
-        view.getBasketTableModel().setStore(store);
         view.getTable().setModel(view.getBasketTableModel());
         view.getCodeButton().addActionListener(new ActionListener() {
             @Override
@@ -69,7 +68,6 @@ public class Controller {
                 infoText = "Итоговая сумма:";
                 getResultPrice();
                 view.getInfoField().setText(infoText + " " + totalPrice + Constant.RUB);
-                //запуск вычислений
                 flag = 0;
                 pressFlag = false;
             }
@@ -98,10 +96,20 @@ public class Controller {
         view.getCancelButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {//не работает делать запрос на удаление записи в бд
-                store.setBasketList(buffer.getBufferList());
-                view.getBasketTableModel().change();
-                flag = 3;
-                pressFlag = true;
+                int index = view.getTable().getSelectedRow();
+                try {
+                    if (index == -1)
+                        throw new Exception("Строка не выбрана!!");
+                    store.deleteProduct(store.getProduct(index).getCode());
+                    view.getBasketTableModel().change();
+                    flag = 3;
+                    pressFlag = true;
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(view,
+                            e.getMessage(),
+                            "Ошибка", JOptionPane.WARNING_MESSAGE, null);
+                }
+
             }
         });
 

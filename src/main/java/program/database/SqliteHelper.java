@@ -77,7 +77,7 @@ public abstract class SqliteHelper {
                 allProductList.add(new Product(resSet.getInt("product_id"),
                         resSet.getString("product_name"),
                         resSet.getInt("product_price"),
-                        0));
+                        resSet.getInt("quantity")));
             }
         }catch (Exception e){
             System.out.println(e.getMessage());

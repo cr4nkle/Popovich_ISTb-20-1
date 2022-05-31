@@ -15,7 +15,7 @@ public class Main {
         Controller controller = new Controller();
         AuthenticationWindow authenticationWindow = new AuthenticationWindow();
         controller.executeAuthenticationWindow(authenticationWindow);
-        dataBase.closeDB();
+
 
 
         System.out.println("*************************\n" +

@@ -1,7 +1,6 @@
 package program.utility;
 
 import program.model.Product;
-
 import java.util.ArrayList;
 
 public class CancelBuffer {
