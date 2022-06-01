@@ -42,6 +42,10 @@ public class Store {
         }
     }
 
+    public int getCashierID(){
+        return this.cashier.getId();
+    }
+
     public void setBasketList(ArrayList<Product> basketList) {
         this.basketList = basketList;
     }

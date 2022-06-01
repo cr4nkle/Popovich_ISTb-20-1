@@ -16,32 +16,11 @@ public abstract class SqliteHelper {
     public void initDB(){
         try{
             connection = DriverManager.getConnection(Constant.URL);
-            if(connection != null){
-                DatabaseMetaData metaData = connection.getMetaData();
-                System.out.println(metaData.getDriverName());
-            }
         }catch (SQLException e){
             System.out.println(e.getMessage());
         }
     }
 
-    public void create() throws SQLException {
-        statement = connection.prepareStatement("CREATE TABLE Test (" +
-                "id INTEGER NOT NULL, " +
-                "t TEXT NOT NULL, " +
-                "time TIME DEFAULT (time('now', 'localtime')) NOT NULL, " +
-                "PRIMARY KEY(id AUTOINCREMENT)" +
-                ");");
-        statement.execute();
-        statement.close();
-    }
-
-    public void add(String t) throws SQLException {
-        statement = connection.prepareStatement("INSERT INTO Test (t) VALUES (?)");
-        statement.setObject(1, t);
-        statement.executeUpdate();
-        statement.close();
-    }
 
     public void closeDB() throws SQLException{
         connection.close();
@@ -83,44 +62,60 @@ public abstract class SqliteHelper {
         return allCashierList;
     }
 
-    public void payment(int id, int totalPrice) throws SQLException {//работает исправно
-        statement = connection.prepareStatement("INSERT INTO 'receipts'('cashier_id', 'total_price') VALUES (?,?);");
-        statement.setObject(1, id);
-        statement.setObject(2, totalPrice);
+    public int getNumber()  {
+        int number = 0;
+        try{
+            resSet = statement.executeQuery("SELECT MAX(purchase_number) FROM Purchases");
+            number = resSet.getInt("MAX(purchase_number)");
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return number;
+    }
+
+    public void payment(int number, int code, int id, int quantity, int discount) throws SQLException {
+        statement = connection.prepareStatement("INSERT INTO Purchases (purchase_number, " +
+                "product_id, " +
+                "cashier_id, " +
+                "purchase_quantity, " +
+                "discount_value) " +
+                "VALUES (?,?,?,?,?);");
+        statement.setObject(1, number);
+        statement.setObject(2, code);
+        statement.setObject(3, id);
+        statement.setObject(4, quantity);
+        statement.setObject(5, discount);
         statement.execute();
         statement.close();
     }
 
-    public  int getReceiptCount() throws SQLException {//работает
-        statement = connection.prepareStatement("SELECT COUNT(receipts_id) from 'receipts';");
-        resSet = statement.executeQuery();
-        return resSet.getInt("COUNT(receipts_id)");
-    }
-
-    public void deleteProduct(int id) throws SQLException {
-        statement = connection.prepareStatement("DELETE FROM products WHERE product_id = ?");
-        statement.setObject(1, id);
-        statement.executeUpdate();
-//        try (PreparedStatement statement = this.connection.prepareStatement(
-//                "DELETE FROM products WHERE product_id = ?")) {
-//            statement.setObject(1, id);
-//            // Выполняем запрос
-//            statement.execute();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-    }
-
-    public void updateProduct(int id, int quantity) throws SQLException {
-        statement = connection.prepareStatement("UPDATE products SET quantity = ? WHERE product_id = ?");
+    public void updateProduct(int code, int quantity) throws SQLException {
+        statement = connection.prepareStatement("UPDATE Products SET product_quantity = ? WHERE product_id = ?");
         statement.setObject(1, quantity);
-        statement.setObject(2, id);
+        statement.setObject(2, code);
         statement.executeUpdate();
+    }
+
+    public ArrayList<Report> getReportList(int id){
+        ArrayList<Report> reportArrayList = new ArrayList<Report>();
+        try{
+            statement = connection.prepareStatement("SELECT * FROM Reports");
+            resSet = statement.executeQuery();
+            while (resSet.next()) {
+                reportArrayList.add(new Product(resSet.getInt("product_id"),
+                        resSet.getString("product_name"),
+                        resSet.getInt("product_price"),
+                        resSet.getInt("quantity")));
+            }
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+        return reportArrayList;
+
     }
 
     //Class<?>
     public abstract Product searchProduct(int code) throws Exception;
     public abstract Cashier searchCashierByLogin(String login);
-    public abstract void setProductArrayList(ArrayList<Product> list);
-    public abstract void setCashierArrayList(ArrayList<Cashier> list);
 }

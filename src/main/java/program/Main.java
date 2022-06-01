@@ -9,15 +9,11 @@ import program.utility.encryption.Encrypt;
 
 public class Main {
 
-    public static void main(String[] args) throws Exception {
-	// write your code here
-        DataRepository dataBase = DataRepository.getInstance();
+    public static void main(String[] args) {
         Controller controller = new Controller();
         AuthenticationWindow authenticationWindow = new AuthenticationWindow();
         controller.executeAuthenticationWindow(authenticationWindow);
 
-
-        System.out.println(Encrypt.encrypt("0000"));
         System.out.println("*************************\n" +
                            "*    ООО Продуктовый    *\n" +
                            "*       г.Ангарск       *\n" +

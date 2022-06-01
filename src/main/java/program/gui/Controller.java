@@ -4,7 +4,6 @@ import program.gui.window.BarcodeInputWindow;
 import program.gui.window.ReceiptOutputWindow;
 import program.model.Cashier;
 import program.model.Product;
-import program.utility.CancelBuffer;
 import program.utility.constant.Constant;
 import program.database.DataRepository;
 import program.utility.encryption.Encrypt;
@@ -25,7 +24,7 @@ public class Controller {
     private DataRepository dataBase = DataRepository.getInstance();
     private int discountValue = 0;
     private float totalPrice = 0;
-    private CancelBuffer buffer;
+    private int purchaseNumber = 5;//dataBase.getNumber();
 
     public Controller(){
 
@@ -174,22 +173,27 @@ public class Controller {
                             flag = 0;
                             break;
                         case 6://отправка запроса на удаление продуктов из бд кнопка оплата
-                            buffer = new CancelBuffer(store.getBasketList());
+                            if (store.getProductListSize() == 0)
+                                throw new Exception("Корзина пустая!!");
                             //запускать метод генерации текста на чеке
                             System.out.println(getChange(Float.parseFloat(result)));//сдача
-
                             System.out.println(totalPrice);//передавать чеку
                             //получать айди продавца
-                            //dataBase.payment(store.getId(), (int) totalPrice);//
+                            for (Product p: store.getBasketList()){
+                                dataBase.payment(purchaseNumber, p.getCode(), store.getCashierID(),p.getQuantity(), discountValue);
+                            }
+                            //
                             view.getInfoField().setText("");
                             showMessage();
                             updateQuantity();//кол-во которое осталось
+
                             new ReceiptOutputWindow();
                             flag = 0;
                             store.deleteAllProduct();//проверка вдруг количество товара 0
                             view.getBasketTableModel().change();//показ чека и очищение таблицы отправка запросов в бд
                             totalPrice = 0;
                             discountValue = 0;//разобраться с запросом обновления
+                            purchaseNumber++;
                             break;
                     }
                 }catch (NumberFormatException ne) {
