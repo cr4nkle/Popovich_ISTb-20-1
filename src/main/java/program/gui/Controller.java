@@ -419,10 +419,11 @@ public class Controller {
         text.append(Constant.CASHIER);
         text.append(cashierName);
         text.append("\n");
+        text.append(Constant.SEPARATOR);
         for (Product p: store.getBasketList()) {
             price = p.getPrice() * p.getQuantity();
             discountPrice = price * discountValue / 100;
-            text.append(Constant.SEPARATOR);
+
             text.append("\n");
             text.append(p.getName());
             text.append("\n");

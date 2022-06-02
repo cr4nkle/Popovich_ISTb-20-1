@@ -5,15 +5,18 @@ import java.awt.*;
 
 public class ReceiptOutputWindow extends JFrame {
     private JTextArea receiptInfoArea;
+    private JScrollPane scrollPane;
     private JButton okButton;
 
     public ReceiptOutputWindow(){
         setTitle("Чек");
-        receiptInfoArea = new JTextArea(30, 20);
+        receiptInfoArea = new JTextArea(50, 20);
         receiptInfoArea.setFont(new Font("Courier New", Font.ITALIC, 20));
+        receiptInfoArea.setEditable(false);
         okButton = new JButton("ОК");
         okButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
-        add(receiptInfoArea, BorderLayout.CENTER);
+        scrollPane = new JScrollPane(receiptInfoArea);
+        add(scrollPane, BorderLayout.CENTER);
         add(okButton, BorderLayout.SOUTH);
         setVisible(true);
         pack();

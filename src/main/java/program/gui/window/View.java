@@ -233,13 +233,15 @@ public class View extends JFrame {
 
         infoField = new JTextField();
         infoField.setFont(font);
+        infoField.setEditable(false);
+        infoField.setBackground(new Color(255, 255, 255));
         constraints.gridwidth = 3;
         constraints.gridx = 0;
         constraints.gridy = 0;
         gridBagContainer.add(infoField,constraints);
 
         exitButton = new JButton("Ввод");
-        exitButton.setFont(new Font("TimesRoman", Font.PLAIN, 70));
+        exitButton.setFont(new Font("TimesRoman", Font.PLAIN, 100));
         exitButton.setPreferredSize(secondDimension);
         constraints.gridwidth = 2;
         constraints.gridheight = 2;
@@ -253,6 +255,7 @@ public class View extends JFrame {
         basketTableModel = new BasketTableModel();
 
         table.getTableHeader().setFont(new Font("TimesRoman", Font.PLAIN, 20));
+        table.getTableHeader().setBackground(new Color(195, 214, 232));
         table.setFont(new Font("TimesRoman", Font.PLAIN, 20));
         table.setRowHeight(30);
 
