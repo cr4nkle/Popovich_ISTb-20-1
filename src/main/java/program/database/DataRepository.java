@@ -1,7 +1,6 @@
 package program.database;
 
-import program.model.Cashier;
-import program.model.Product;
+import program.model.*;
 import java.util.ArrayList;
 
 //добавить обработку исключений

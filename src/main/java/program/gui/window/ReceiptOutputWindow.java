@@ -11,17 +11,13 @@ public class ReceiptOutputWindow extends JFrame {
         setTitle("Чек");
         receiptInfoArea = new JTextArea(30, 20);
         receiptInfoArea.setFont(new Font("Courier New", Font.ITALIC, 20));
-        receiptInfoArea.setText("*************************\n" +
-                "*    ООО Продуктовый    *\n" +
-                "*       г.Ангарск       *\n" +
-                "*************************\n" +
-                "КАССОВЫЙ ЧЕК:         № 1\n");
         okButton = new JButton("ОК");
         okButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
         add(receiptInfoArea, BorderLayout.CENTER);
         add(okButton, BorderLayout.SOUTH);
         setVisible(true);
         pack();
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
     }
 
@@ -31,5 +27,9 @@ public class ReceiptOutputWindow extends JFrame {
 
     public JTextArea getReceiptInfoArea() {
         return receiptInfoArea;
+    }
+
+    public void setReceiptText(String text){
+        this.receiptInfoArea.setText(text);
     }
 }

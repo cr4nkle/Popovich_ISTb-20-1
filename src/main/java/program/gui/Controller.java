@@ -24,7 +24,7 @@ public class Controller {
     private DataRepository dataBase = DataRepository.getInstance();
     private int discountValue = 0;
     private float totalPrice = 0;
-    private int purchaseNumber = 5;//dataBase.getNumber();
+    private int purchaseNumber = dataBase.getNumber();
 
     public Controller(){
 
@@ -175,25 +175,23 @@ public class Controller {
                         case 6://отправка запроса на удаление продуктов из бд кнопка оплата
                             if (store.getProductListSize() == 0)
                                 throw new Exception("Корзина пустая!!");
-                            //запускать метод генерации текста на чеке
-                            System.out.println(getChange(Float.parseFloat(result)));//сдача
-                            System.out.println(totalPrice);//передавать чеку
-                            //получать айди продавца
+                            purchaseNumber++;
                             for (Product p: store.getBasketList()){
                                 dataBase.payment(purchaseNumber, p.getCode(), store.getCashierID(),p.getQuantity(), discountValue);
                             }
-                            //
                             view.getInfoField().setText("");
                             showMessage();
                             updateQuantity();//кол-во которое осталось
 
-                            new ReceiptOutputWindow();
+                            ReceiptOutputWindow window = new ReceiptOutputWindow();
+                            window.setReceiptText(generateReceiptText(result));
+                            executeOutputWindow(window);
                             flag = 0;
                             store.deleteAllProduct();//проверка вдруг количество товара 0
                             view.getBasketTableModel().change();//показ чека и очищение таблицы отправка запросов в бд
                             totalPrice = 0;
                             discountValue = 0;//разобраться с запросом обновления
-                            purchaseNumber++;
+
                             break;
                     }
                 }catch (NumberFormatException ne) {
@@ -227,15 +225,15 @@ public class Controller {
 
     }
 
-    private int updateQuantity() throws Exception {
+    private void updateQuantity() throws Exception {
         int code;
-        int quantity = 0;
+        int quantity;
         for (int i = 0; i < store.getProductListSize(); i ++){
             code = store.getBasketList().get(i).getCode();
             quantity = dataBase.searchProduct(code).getQuantity() - store.getBasketList().get(i).getQuantity();
             dataBase.searchProduct(code).setQuantity(quantity);
+            dataBase.updateProduct(code, quantity);
         }
-        return quantity;
     }
 
     private void checkQuantity(int enterQuantity, Product product) throws Exception {
@@ -397,11 +395,11 @@ public class Controller {
         totalPrice = temp - (temp * discountValue) / 100;
     }
 
-    private double getChange(double enterAmount) throws Exception {
+    private float getChange(float enterAmount) throws Exception {
         getResultPrice();
         if(enterAmount < totalPrice)
             throw new Exception("Введено недостаточное кол-во денежных средств!!");
-        double res = enterAmount - totalPrice;
+        float res = enterAmount - totalPrice;
         return res;
     }
 
@@ -409,9 +407,70 @@ public class Controller {
 
     }
 
-    public void executeOutputWindow(ReceiptOutputWindow window){
+    public String generateReceiptText(String result) throws Exception {
+        StringBuilder text = new StringBuilder();
+        String cashierName = store.getCashier().getName();
+        float discountPrice;
+        int price;
+        text.append(Constant.RECEIPT_HEAD);
+        text.append(Constant.RECEIPT);
+        text.append(purchaseNumber);
+        text.append("\n");
+        text.append(Constant.CASHIER);
+        text.append(cashierName);
+        text.append("\n");
+        for (Product p: store.getBasketList()) {
+            price = p.getPrice() * p.getQuantity();
+            discountPrice = price * discountValue / 100;
+            text.append(Constant.SEPARATOR);
+            text.append("\n");
+            text.append(p.getName());
+            text.append("\n");
+            text.append(p.getPrice());
+            text.append(Constant.RUB);
+            text.append("x");
+            text.append(p.getQuantity());
+            text.append(Constant.QUANTITY);
+            text.append("\n");
+            text.append(Constant.PRICE);
+            text.append(price);
+            text.append(Constant.RUB);
+            text.append("\n");
+            text.append(Constant.DISCOUNT);
+            text.append(discountPrice);
+            text.append(Constant.RUB);
+            text.append("\n");
+            text.append(Constant.SEPARATOR);
+            text.append("\n");
+            price = 0;
+            discountPrice = 0;
+        }
+        text.append(Constant.TOTAL);
+        text.append(totalPrice);
+        text.append(Constant.RUB);
+        text.append("\n");
+        text.append(Constant.CREDIT);
+        text.append(result);
+        text.append(Constant.RUB);
+        text.append("\n");
+        text.append(Constant.CHANGE);
+        text.append(getChange(Float.parseFloat(result)));
+        text.append(Constant.RUB);
+        text.append("\n");
+        text.append(Constant.RECEIPT_END);
 
+        return text.toString();
     }
+
+    public void executeOutputWindow(ReceiptOutputWindow window){
+        window.getOkButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                window.dispose();
+            }
+        });
+    }
+
     private float countDiscountValue(){
         float temp = totalPrice - (totalPrice * discountValue) / 100;
         return temp;
