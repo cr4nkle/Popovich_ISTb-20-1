@@ -19,7 +19,6 @@ public abstract class SqliteHelper {
         }
     }
 
-
     public void closeDB(){
         try {
             connection.close();
@@ -117,7 +116,7 @@ public abstract class SqliteHelper {
     public ArrayList<Report> getReportList(int id){
         ArrayList<Report> reportArrayList = new ArrayList<>();
         try{
-            statement = connection.prepareStatement("SELECT * FROM Reports WHERE cashier_id = ?");
+            statement = connection.prepareStatement("SELECT * FROM Report WHERE cashier_id = ?");
             statement.setObject(1, id);
             resSet = statement.executeQuery();
             while (resSet.next()) {
@@ -125,7 +124,6 @@ public abstract class SqliteHelper {
                         resSet.getString("product_name"),
                         resSet.getInt("price"),
                         resSet.getInt("quantity"),
-                        resSet.getInt("discount_value"),
                         resSet.getInt("total_price")));
             }
         }catch (Exception e){

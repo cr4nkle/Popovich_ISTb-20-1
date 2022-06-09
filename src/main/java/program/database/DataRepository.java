@@ -5,8 +5,9 @@ import java.util.ArrayList;
 
 //добавить обработку исключений
 public class DataRepository extends SqliteHelper{//класс который реализует абстрактный
-    private ArrayList<Product> allProductList = new ArrayList<>();
-    private ArrayList<Cashier> allCashierList = new ArrayList<>();
+    private ArrayList<Product> allProductList;
+    private ArrayList<Cashier> allCashierList;
+    private ArrayList<Report> reportArrayList;
     private static DataRepository INSTANCE;
 
     private DataRepository(){
@@ -56,6 +57,18 @@ public class DataRepository extends SqliteHelper{//класс который р�
             }
         }
         return cashier;
+    }
+
+    public int getReportListSize(){
+        return reportArrayList.size();
+    }
+
+    public Report getReport(int index){
+        return reportArrayList.get(index);
+    }
+
+    public void setReportArrayList(ArrayList<Report> list){
+        this.reportArrayList = list;
     }
 
 }

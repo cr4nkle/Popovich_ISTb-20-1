@@ -5,16 +5,33 @@ public class Report {
     private String productName;
     private int price;
     private int quantity;
-    private int discount;
     private int totalPrice;
 
-    public Report(String cashierName, String productName,int price, int quantity, int discount, int totalPrice){
+    public Report(String cashierName, String productName,int price, int quantity, int totalPrice){
         this.cashierName = cashierName;
         this.productName = productName;
         this.price = price;
         this.quantity = quantity;
-        this.discount = discount;
         this.totalPrice = totalPrice;
     }
 
+    public int getPrice() {
+        return price;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public int getTotalPrice() {
+        return totalPrice;
+    }
+
+    public String getCashierName() {
+        return cashierName;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
 }

@@ -2,7 +2,7 @@ package program.gui.tablemodel;
 
 import javax.swing.table.AbstractTableModel;
 
-public class DataModel extends AbstractTableModel {
+public abstract class DataModel extends AbstractTableModel {
     public static final int COL_COUNT = 5;
     //хранить размер столбцов для Table
     @Override
@@ -25,8 +25,8 @@ public class DataModel extends AbstractTableModel {
             case 0: return "№";
             case 1: return "Код товара";
             case 2: return "Наименование товара";
-            case 3: return "Цена";
-            case 4: return "Кол-во";
+            case 3: return "Цена (руб.)";
+            case 4: return "Кол-во (шт)";
         }
         return "";
     }

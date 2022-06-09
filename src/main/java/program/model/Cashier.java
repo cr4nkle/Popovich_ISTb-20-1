@@ -13,11 +13,6 @@ public class Cashier {
         this.password = password;
     }
 
-    public Cashier(String fullName, String password){// для бд
-        this.name = fullName;
-        this.password = password;
-    }
-
     public Cashier(Cashier cashier){
         this.id = cashier.id;
         this.name = cashier.name;

@@ -1,5 +1,6 @@
 package main.java.program.gui;
 
+import program.gui.tablemodel.ReportTableModel;
 import program.gui.window.BarcodeInputWindow;
 import program.gui.window.ReceiptOutputWindow;
 import program.model.Cashier;
@@ -38,9 +39,94 @@ public class Controller {
         infoText += flag;
         view.getInfoField().setText(infoText);
     }
-    public void execute(){
-        press();
+
+    private void execute(){
         view.getTable().setModel(view.getBasketTableModel());
+
+        view.getButton1().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                demonstration("1");
+            }
+        });
+
+        view.getButton2().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                demonstration("2");
+            }
+        });
+
+        view.getButton3().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                demonstration("3");
+            }
+        });
+
+        view.getButton4().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                demonstration("4");
+            }
+        });
+
+        view.getButton5().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                demonstration("5");
+            }
+        });
+
+        view.getButton6().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                demonstration("6");
+            }
+        });
+
+        view.getButton7().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                demonstration("7");
+            }
+        });
+
+        view.getButton8().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                demonstration("8");
+            }
+        });
+
+        view.getButton9().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                demonstration("9");
+            }
+        });
+
+        view.getZeroButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                demonstration("0");
+            }
+        });
+
+        view.getDoubleZeroButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                demonstration("00");
+            }
+        });
+
+        view.getDotButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                demonstration(".");
+            }
+        });
+
         view.getCodeButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -54,21 +140,37 @@ public class Controller {
         view.getQuantityButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                infoText = "Введите кол-во:";
-                flag = 1;
-                pressFlag = true;
-                view.getInfoField().setText(infoText);
+                try {
+                    if (store.getProductListSize() == 0)
+                        throw new Exception("Корзина пустая!!");
+                    infoText = "Введите кол-во:";
+                    flag = 1;
+                    pressFlag = true;
+                    view.getInfoField().setText(infoText);
+                }catch (Exception e) {
+                    JOptionPane.showMessageDialog(view,
+                            e.getMessage(),
+                            "Ошибка", JOptionPane.WARNING_MESSAGE, null);
+                }
             }
         });
 
         view.getResultButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {//показ итоговой суммы
-                infoText = "Итоговая сумма:";
-                getResultPrice();
-                view.getInfoField().setText(infoText + " " + totalPrice + Constant.RUB);
-                flag = 0;
-                pressFlag = false;
+                try {
+                    if (store.getProductListSize() == 0)
+                        throw new Exception("Корзина пустая!!");
+                    infoText = "Итоговая сумма:";
+                    getResultPrice();
+                    view.getInfoField().setText(infoText + " " + totalPrice + Constant.RUB);
+                    flag = 0;
+                    pressFlag = false;
+                }catch (Exception e) {
+                    JOptionPane.showMessageDialog(view,
+                            e.getMessage(),
+                            "Ошибка", JOptionPane.WARNING_MESSAGE, null);
+                }
             }
         });
 
@@ -85,10 +187,18 @@ public class Controller {
         view.getPayButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                infoText = "Введите сумму оплаты:";
-                flag = 6;
-                pressFlag = true;
-                view.getInfoField().setText(infoText);
+                try {
+                    if (store.getProductListSize() == 0)
+                        throw new Exception("Корзина пустая!!");
+                    infoText = "Введите сумму оплаты:";
+                    flag = 6;
+                    pressFlag = true;
+                    view.getInfoField().setText(infoText);
+                }catch (Exception e) {
+                    JOptionPane.showMessageDialog(view,
+                            e.getMessage(),
+                            "Ошибка", JOptionPane.WARNING_MESSAGE, null);
+                }
             }
         });
 
@@ -97,18 +207,22 @@ public class Controller {
             public void actionPerformed(ActionEvent actionEvent) {
                 int index = view.getTable().getSelectedRow();
                 try {
+                    if (store.getProductListSize() == 0)
+                        throw new Exception("Корзина пустая!!");
                     if (index == -1)
                         throw new Exception("Строка не выбрана!!");
                     store.deleteProduct(store.getProduct(index).getCode());
                     view.getBasketTableModel().change();
                     flag = 3;
                     pressFlag = true;
-                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(view,
+                            "Позиция удалена из корзины",
+                            "Окно сообщения", JOptionPane.INFORMATION_MESSAGE, null);
+                }catch (Exception e) {
                     JOptionPane.showMessageDialog(view,
                             e.getMessage(),
                             "Ошибка", JOptionPane.WARNING_MESSAGE, null);
                 }
-
             }
         });
 
@@ -116,6 +230,8 @@ public class Controller {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 try{
+                    dataBase.setReportArrayList(dataBase.getReportList(store.getCashierID()));
+                    view.getTable().setModel(new ReportTableModel());
 
                     dataBase.closeDB();
                     flag = 0;
@@ -154,9 +270,6 @@ public class Controller {
                             view.getBasketTableModel().change();
                             showMessage();
                             break;
-                        case 3:
-
-                            break;
                         case 4://поиск по введенному коду показ в таблицу продукта кнопка код
                             store.addProduct(dataBase.copyProduct(Integer.parseInt(result)));
                             view.getBasketTableModel().change();
@@ -173,16 +286,18 @@ public class Controller {
                             flag = 0;
                             break;
                         case 6://отправка запроса на удаление продуктов из бд кнопка оплата
-                            if (store.getProductListSize() == 0)
-                                throw new Exception("Корзина пустая!!");
                             purchaseNumber++;
+                            for (Product p: store.getBasketList()){
+                                if (p.getQuantity() < 1)
+                                    throw new Exception("Количество товара 0!!");
+                            }
                             for (Product p: store.getBasketList()){
                                 dataBase.payment(purchaseNumber, p.getCode(), store.getCashierID(),p.getQuantity(), discountValue);
                             }
                             view.getInfoField().setText("");
                             showMessage();
                             updateQuantity();//кол-во которое осталось
-
+                            getChange(Integer.parseInt(result));
                             ReceiptOutputWindow window = new ReceiptOutputWindow();
                             window.setReceiptText(generateReceiptText(result));
                             executeOutputWindow(window);
@@ -199,8 +314,6 @@ public class Controller {
                     JOptionPane.showMessageDialog(view,
                             "Неверный формат ввода!!",
                             "Ошибка", JOptionPane.WARNING_MESSAGE, null);
-                }catch (NullPointerException e){
-                    System.out.println(e.getMessage());
                 }catch(Exception e){
                     view.getInfoField().setText("");
                     JOptionPane.showMessageDialog(view,
@@ -253,93 +366,6 @@ public class Controller {
                 "Окно сообщения", JOptionPane.INFORMATION_MESSAGE, null);
     }
 
-    private void press(){
-        view.getButton1().addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent actionEvent) {
-                    demonstration("1");
-                }
-            });
-
-        view.getButton2().addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent actionEvent) {
-                    demonstration("2");
-                }
-            });
-
-        view.getButton3().addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent actionEvent) {
-                    demonstration("3");
-                }
-            });
-
-        view.getButton4().addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent actionEvent) {
-                    demonstration("4");
-                }
-            });
-
-        view.getButton5().addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent actionEvent) {
-                    demonstration("5");
-                }
-            });
-
-        view.getButton6().addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent actionEvent) {
-                    demonstration("6");
-                }
-            });
-
-        view.getButton7().addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent actionEvent) {
-                    demonstration("7");
-                }
-            });
-
-        view.getButton8().addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent actionEvent) {
-                    demonstration("8");
-                }
-            });
-
-        view.getButton9().addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent actionEvent) {
-                    demonstration("9");
-                }
-            });
-
-        view.getZeroButton().addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent actionEvent) {
-                    demonstration("0");
-                }
-            });
-
-        view.getDoubleZeroButton().addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent actionEvent) {
-                    demonstration("00");
-                }
-            });
-
-        view.getDotButton().addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent actionEvent) {
-                    demonstration(".");
-                }
-            });
-
-    }
-
     public void executeAuthenticationWindow(AuthenticationWindow window){
         window.getAuthenticationButton().addActionListener(new ActionListener() {
             @Override
@@ -351,7 +377,7 @@ public class Controller {
                     if (login){
                         setView(new View());
                         execute();
-                        view.getCashierField().setText("Кассир:" + dataBase.searchCashierByLogin(name).getName() + " ");
+                        view.getCashierField().setText("Кассир: " + dataBase.searchCashierByLogin(name).getName() + " ");
                         window.dispose();
                     }else{
                         JOptionPane.showMessageDialog(view,
@@ -403,11 +429,11 @@ public class Controller {
         return res;
     }
 
-    public void executeInputWindow(BarcodeInputWindow window){
+    private void executeInputWindow(BarcodeInputWindow window){
 
     }
 
-    public String generateReceiptText(String result) throws Exception {
+    private String generateReceiptText(String result) throws Exception {
         StringBuilder text = new StringBuilder();
         String cashierName = store.getCashier().getName();
         float discountPrice;
@@ -463,17 +489,12 @@ public class Controller {
         return text.toString();
     }
 
-    public void executeOutputWindow(ReceiptOutputWindow window){
+    private void executeOutputWindow(ReceiptOutputWindow window){
         window.getOkButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 window.dispose();
             }
         });
-    }
-
-    private float countDiscountValue(){
-        float temp = totalPrice - (totalPrice * discountValue) / 100;
-        return temp;
     }
 }

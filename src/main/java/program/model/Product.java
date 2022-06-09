@@ -36,18 +36,6 @@ public class Product {
         return name;
     }
 
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }

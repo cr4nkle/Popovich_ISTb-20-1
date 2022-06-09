@@ -10,7 +10,7 @@ public class ReceiptOutputWindow extends JFrame {
 
     public ReceiptOutputWindow(){
         setTitle("Чек");
-        receiptInfoArea = new JTextArea(50, 20);
+        receiptInfoArea = new JTextArea(20, 20);
         receiptInfoArea.setFont(new Font("Courier New", Font.ITALIC, 20));
         receiptInfoArea.setEditable(false);
         okButton = new JButton("ОК");

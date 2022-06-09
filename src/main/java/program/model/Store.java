@@ -46,10 +46,6 @@ public class Store {
         return this.cashier.getId();
     }
 
-    public void setBasketList(ArrayList<Product> basketList) {
-        this.basketList = basketList;
-    }
-
     public void addProduct(Product product){
         product.setQuantity(0);
         this.basketList.add(product);
